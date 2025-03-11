@@ -24,9 +24,9 @@
     <!-- Contenedor del formulario -->
     <div class="bubble-login text-center p-4">
       <h2 class="login-title">Inicia Sesión</h2>
-      <form class="login-form">
-        <input type="text" class="form-control" placeholder="Usuario" required>
-        <input type="password" class="form-control" placeholder="Contraseña" required>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+        <input type="text" class="form-control" placeholder="Correo" formControlName="correo" required>
+        <input type="password" class="form-control" placeholder="Contraseña" formControlName="correo" required>
         <button type="submit" class="btn btn-primary">→</button>
       </form>
     </div>

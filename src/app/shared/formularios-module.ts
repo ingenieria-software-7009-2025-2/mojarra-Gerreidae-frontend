@@ -1,12 +1,10 @@
-// Directivas de angular
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-
-// Bibliotecas para el uso de formularios
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+//libraries to use forms
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-    imports: [FormControl, FormGroup, FormsModule, ReactiveFormsModule, CommonModule],
-    exports: [FormControl, FormGroup, FormsModule, ReactiveFormsModule, CommonModule],
+    imports: [FormsModule, ReactiveFormsModule, CommonModule],
+    exports: [FormsModule, ReactiveFormsModule, CommonModule],
 })
 export class FormulariosModule{}
