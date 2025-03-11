@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './modules/layout/login/login.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
