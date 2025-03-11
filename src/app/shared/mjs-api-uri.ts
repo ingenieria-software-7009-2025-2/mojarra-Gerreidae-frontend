@@ -1,1 +1,1 @@
-export const mjs_api_uri: string = 'http://localhost:5432';
+export const mjs_api_uri: string = 'http://localhost:8080';
