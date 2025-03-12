@@ -17,7 +17,7 @@ export class LoginService {
   }
 
   public login(credenciales: {correo?: string, contraseña?: string}): Observable<HttpResponse<LoginResponse>> {
-    return this.http.post<LoginResponse>(`${mjs_api_uri}/v1/login`, credenciales, { observe: 'response' });
+    return this.http.post<LoginResponse>(`${mjs_api_uri}/v1/users/login`, credenciales, { observe: 'response' });
   }
 
   public saveToken(token: string): void {

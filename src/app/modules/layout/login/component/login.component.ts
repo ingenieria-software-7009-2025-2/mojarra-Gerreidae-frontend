@@ -26,7 +26,7 @@ export class LoginComponent {
 
   private subscriptions: Subscription[] = [];
 
-  /** FormGroup ṕara el formulario del login 
+  /** FormGroup para el formulario del login 
    * 
    * Un FormGroup es un conjunto de FormControl's que dependen 
    * entre sí.
@@ -50,7 +50,6 @@ export class LoginComponent {
     // obtenemos los valores del formulario
     var loginFormValue = this.loginForm.value as { correo: string, contraseña:string };
 
-    
     this.subscriptions.push(
       this.loginService.login(loginFormValue).subscribe (
         (response: HttpResponse<LoginResponse>) => {
