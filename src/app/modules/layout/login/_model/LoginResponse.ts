@@ -3,7 +3,7 @@ export class LoginResponse{
     apellidoP: string = "";
     apellidoM: string = "";
     correo: string = "";
-    contrasenia: string = "";
+    password: string = "";
     token: string = ""; 
     rol: number = -1;
 

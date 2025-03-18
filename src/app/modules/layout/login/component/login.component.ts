@@ -36,8 +36,8 @@ export class LoginComponent {
   */
   loginForm = new FormGroup (
     {
-      correo: new FormControl('', [Validators.required]),
-      contraseña: new FormControl('', [Validators.required, Validators.minLength(8)])
+      mail: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)])
     }
   )
 
@@ -48,7 +48,7 @@ export class LoginComponent {
 
   public onLogin() {
     // obtenemos los valores del formulario
-    var loginFormValue = this.loginForm.value as { correo: string, contraseña:string };
+    var loginFormValue = this.loginForm.value as { mail: string, password:string };
 
     this.subscriptions.push(
       this.loginService.login(loginFormValue).subscribe (
