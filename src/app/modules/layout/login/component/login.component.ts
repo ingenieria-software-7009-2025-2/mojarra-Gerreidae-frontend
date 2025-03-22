@@ -24,6 +24,9 @@ import { LoginResponse } from '../_model/LoginResponse';
 })
 export class LoginComponent {
 
+  /**
+   * Suscripciones activas en el componente.
+   */
   private subscriptions: Subscription[] = [];
 
   /** FormGroup para el formulario del login 
@@ -46,6 +49,18 @@ export class LoginComponent {
     private loginService: LoginService 
   ) {}
 
+  /**
+   * Getter para obtener el estado de los controladores
+   * del formulario.
+   */
+  get loginFormControls() {
+    return this.loginForm.controls;
+  }
+
+  /**
+   * Función para realizar el login del usuario a 
+   * través del fomulario `loginForm`.
+   */
   public onLogin() {
     // obtenemos los valores del formulario
     var loginFormValue = this.loginForm.value as { mail: string, password:string };
@@ -72,6 +87,21 @@ export class LoginComponent {
         }
       )
     );
+  }
+
+  /**
+   * Esta función es parte del ciclo de vida de los componentes de
+   * angular, al igual que `ngOnInit`, pero `ngOnDestroy` 
+   * es el método que se ejecuta justo antes de que el 
+   * componente deje de ser visible, por ejemplo en un cambio de 
+   * página.
+   * 
+   * Lo que hacemos en este caso es limpiar la lista de 
+   * suscripciones para liberar recursos y evitar suscripciones
+   * huérfanas.
+   */
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
 
