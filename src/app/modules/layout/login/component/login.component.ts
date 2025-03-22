@@ -66,8 +66,8 @@ export class LoginComponent {
     var loginFormValue = this.loginForm.value as { mail: string, password:string };
 
     this.subscriptions.push(
-      this.loginService.login(loginFormValue).subscribe (
-        (response: HttpResponse<LoginResponse>) => {
+      this.loginService.login(loginFormValue).subscribe ({
+        next: (response) => {
           if (response.body && response.body.token) {
             this.loginService.saveToken(response.body.token);
             
@@ -80,13 +80,13 @@ export class LoginComponent {
             }
             console.log('El token devuelto no fue poblado');
             return;
-          }          
+          }
         },
-        (errorResponse: HttpErrorResponse) => {
-          alert(errorResponse.error.message);
+        error: (e) => {
+          console.log(e.error.message);
         }
-      )
-    );
+      })
+    )
   }
 
   /**
