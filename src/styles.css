@@ -1,10 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Fondo de la página */
 body {
-    background: url('assets/mar.png') no-repeat center center/cover;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    margin: 0;
-  }
-  
+  background: url('assets/mar.png') no-repeat center center/cover;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+/* Estilos para swal messages*/
+.swal-titlem{
+  font-size: 24px;
+}
+.swal-icon{
+  font-size: 12px;
+}
+.swal-cancel-button{
+  width: 120px;
+  margin: 12px;
+}
+.swal-confirm-button{
+  width: 120px;
+  margin: 12px;
+}

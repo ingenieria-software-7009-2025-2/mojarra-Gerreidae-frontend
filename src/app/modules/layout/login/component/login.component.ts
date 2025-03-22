@@ -12,8 +12,9 @@ import { Subscription } from 'rxjs';
 
 // Service del componente
 import { LoginService } from '../_service/login.service';
-// Modelo de la respuesta de un login
-import { LoginResponse } from '../_model/LoginResponse';
+// Mensajes personalizados
+import { SwalMessages } from '../../../../shared/swal-messages';
+
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,9 @@ export class LoginComponent {
    * Suscripciones activas en el componente.
    */
   private subscriptions: Subscription[] = [];
+
+  swal: SwalMessages = new SwalMessages(); // swal messages
+
 
   /** FormGroup para el formulario del login 
    * 
@@ -71,7 +75,7 @@ export class LoginComponent {
           if (response.body && response.body.token) {
             this.loginService.saveToken(response.body.token);
             
-            console.log('Se inició sesión');
+            this.swal.successMessage('Se inició sesión');
             this.router.navigateByUrl(''); 
           } else {
             if (response.body === null) {
