@@ -1,0 +1,51 @@
+<div class="register-container">
+    <h2>Registro de Usuario</h2>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <!-- Nombre -->
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre" type="text" placeholder="Ingrese su nombre" />
+      <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched">
+        <span class="error">El nombre es obligatorio.</span>
+      </div>
+  
+      <!-- Apellido Paterno -->
+      <label for="apellidoP">Apellido Paterno</label>
+      <input id="apellidoP" formControlName="apellidoP" type="text" placeholder="Ingrese su apellido paterno" />
+      <div *ngIf="registerForm.get('apellidoP')?.invalid && registerForm.get('apellidoP')?.touched">
+        <span class="error">El apellido paterno es obligatorio.</span>
+      </div>
+  
+      <!-- Apellido Materno -->
+      <label for="apellidoM">Apellido Materno</label>
+      <input id="apellidoM" formControlName="apellidoM" type="text" placeholder="Ingrese su apellido materno" />
+      <div *ngIf="registerForm.get('apellidoM')?.invalid && registerForm.get('apellidoM')?.touched">
+        <span class="error">El apellido materno es obligatorio.</span>
+      </div>
+  
+      <!-- Correo Electrónico -->
+      <label for="mail">Correo Electrónico</label>
+      <input id="mail" formControlName="mail" type="email" placeholder="Ingrese su correo electrónico" />
+      <div *ngIf="registerForm.get('mail')?.invalid && registerForm.get('mail')?.touched">
+        <span class="error">Ingrese un correo válido.</span>
+      </div>
+  
+      <!-- Contraseña -->
+      <label for="password">Contraseña</label>
+      <input id="password" formControlName="password" type="password" placeholder="Ingrese su contraseña" />
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <span class="error">La contraseña debe tener al menos 6 caracteres.</span>
+      </div>
+  
+      <!-- Confirmar Contraseña -->
+      <label for="confirmPassword">Confirmar Contraseña</label>
+      <input id="confirmPassword" formControlName="confirmPassword" type="password" placeholder="Confirme su contraseña" />
+      <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+        <span class="error">Las contraseñas no coinciden.</span>
+      </div>
+  
+      <!-- Botón de Registro -->
+      <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+    </form>
+  </div>
+  

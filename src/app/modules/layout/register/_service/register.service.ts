@@ -1,36 +1,44 @@
 import { Injectable } from '@angular/core';
-// Para realizar peticiones http y recibir respuestas.
+
+// Para realizar peticiones http y recibir respuestas
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // URI de la API
 import { mjs_api_uri } from '../../../../shared/mjs-api-uri';
-// Modelo de la respuesta de un login
-import { LoginResponse } from '../_model/LoginResponse';
+import { RegisterResponse } from '../_model/RegisterResponse'
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-  // Token del usuario
+export class RegisterService {
+  // token del usuario
   private token: string | null;
-
-  constructor(private http: HttpClient) {
+  
+  constructor(private http: HttpClient) { 
     this.token = null;
   }
 
   /**
-   * Función para realizar una petición de login a la
-   * API de MojarraDrive.
-   *
-   * @param credenciales el correo y la contraseña del
-   * usuario que quiere ingresar.
-   * @returns un observable que emite la respuesta HTTP de la
-   * API, en formato `LoginResponse`
+   * Funcion para realizar crear usuario 
+   * 
+   * @param credenciales nombre, apellidos, correo, contraseña
+   * del usuario por agregar
+   * @returns un observable que emite la repsuesta HTTP a la API, 
+   * en formato 'RegisterResponse'
    */
-  public login(credenciales: {mail?: string, password?: string}): Observable<HttpResponse<LoginResponse>> {
-    return this.http.post<LoginResponse>(`${mjs_api_uri}/v1/users/login`, credenciales, { observe: 'response' });
+  public register(
+    credenciales: { 
+      nombre: string;
+      apellidoP: string;
+      apellidoM: string;
+      mail: string;
+      password: string;
+    }
+  ): Observable<HttpResponse<RegisterResponse>> {
+    return this.http.post<RegisterResponse>(`${mjs_api_uri}/v1/users`, credenciales, { observe: 'response' });
   }
+  
 
   /**
    * Función para realizar una petición de logout a la
@@ -41,11 +49,6 @@ export class LoginService {
    */
   public logout(): Observable<HttpResponse<number>> {
     return this.http.post<number>(`${mjs_api_uri}/v1/users/logout`, null, { observe: 'response' });
-  }
-
-
-  public createUser(): Observable<HttpResponse<number>> {;
-    return this.http.post<number>(`${mjs_api_uri}/v1/users`, null, { observe: 'response' });
   }
 
   /**
@@ -83,4 +86,5 @@ export class LoginService {
   public getToken(): string | null {
     return this.token;
   }
+
 }
