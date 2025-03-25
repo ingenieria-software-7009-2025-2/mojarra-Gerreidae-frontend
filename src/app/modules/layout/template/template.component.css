@@ -10,12 +10,12 @@
     min-height: 100%;
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif;
-
     color: white;
   }
   
-  /* === HEADER estilo Inbursa === */
+  /* === HEADER  === */
   .header {
+    font-family: 'Montserrat', sans-serif;
     width: 100%;
     height: 80px;
     background: rgba(0, 0, 0, 0.6);
