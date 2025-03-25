@@ -2,10 +2,20 @@
 <header class="header">
     <div class="logo">MojarraDrive</div>
     <nav>
-      <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
-      <a routerLink="/register" routerLinkActive="active">Registrarse</a>
+      <!-- Si NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn; else loggedIn">
+        <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
+        <a routerLink="/register" routerLinkActive="active">Registrarse</a>
+      </ng-container>
+  
+      <!-- Si SÍ está logueado -->
+      <ng-template #loggedIn>
+        <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+        <a href="#" (click)="cerrarSesion()">Cerrar Sesión</a>
+      </ng-template>
     </nav>
   </header>
+  
   
   <!-- OCEAN BACKGROUND + BUBBLES + PECECILLOS -->
   <div class="ocean-layer">
