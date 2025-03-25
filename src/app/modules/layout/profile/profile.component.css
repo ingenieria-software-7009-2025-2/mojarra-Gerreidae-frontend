@@ -128,4 +128,20 @@
     color: #ff7b7b;
     margin-top: 4px;
   }
+  .btn-red {
+    padding: 12px 30px;
+    background: #ff4d4d;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-red:hover {
+    background: #e63939;
+    transform: scale(1.05);
+  }
   
