@@ -1,49 +1,45 @@
 <div class="perfil-wrapper">
     <div class="perfil-container">
-      <h2>Editar Perfil</h2>
-      <form>
-        <div class="form-columns">
-          <!-- Columna izquierda -->
-          <div class="form-col">
-            <!-- Nombre -->
-            <label for="nombre">Nombre</label>
-            <input id="nombre" formControlName="nombre" type="text" placeholder="Ingrese su nombre" />
-
-  
-            <!-- Apellido Paterno -->
-            <label for="apellidoP">Apellido Paterno</label>
-            <input id="apellidoP" formControlName="apellidoP" type="text" placeholder="Ingrese su apellido paterno" />
-
-  
-            <!-- Apellido Materno -->
-            <label for="apellidoM">Apellido Materno</label>
-            <input id="apellidoM" formControlName="apellidoM" type="text" placeholder="Ingrese su apellido materno" />
-
-          </div>
-  
-          <!-- Columna derecha -->
-          <div class="form-col">
-            <!-- Correo -->
-            <label for="mail">Correo Electrónico</label>
-            <input id="mail" formControlName="mail" type="email" placeholder="Ingrese su correo electrónico" />
-  
-            <!-- Contraseña -->
-            <label for="password">Contraseña</label>
-            <input id="password" formControlName="password" type="password" placeholder="Ingrese su contraseña" />
-
-  
-            <!-- Confirmar contraseña -->
-            <label for="confirmPassword">Confirmar Contraseña</label>
-            <input id="confirmPassword" formControlName="confirmPassword" type="password" placeholder="Confirme su contraseña" />
-
-          </div>
+      <ng-container *ngIf="!mostrarFormulario; else editar">
+        <h2> Mi Perfil</h2>
+        <div class="datos-usuario">
+          <p><strong>Nombre:</strong> </p>
+          <p><strong>Apellido Paterno:</strong> </p>
+          <p><strong>Apellido Materno:</strong> </p>
+          <p><strong>Correo:</strong> </p>
         </div>
-  
-        <!-- Botón de guardar -->
         <div class="btn-container">
-          <button type="submit" > Guardar Cambios</button>
+          <button (click)="editarPerfil()">Editar Perfil</button>
         </div>
-      </form>
+      </ng-container>
+  
+      <ng-template #editar>
+        <h2>Editar Perfil</h2>
+        <form>
+          <div class="form-columns">
+            <div class="form-col">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre" />
+              <label>Apellido Paterno</label>
+              <input type="text" formControlName="apellidoP" />
+              <label>Apellido Materno</label>
+              <input type="text" formControlName="apellidoM" />
+            </div>
+            <div class="form-col">
+              <label>Correo Electrónico</label>
+              <input type="email" formControlName="mail" />
+              <label>Contraseña</label>
+              <input type="password" formControlName="password" />
+              <label>Confirmar Contraseña</label>
+              <input type="password" formControlName="confirmPassword" />
+            </div>
+          </div>
+          <div class="btn-container">
+            <button type="submit" [disabled]="perfilForm.invalid">Guardar Cambios</button>
+            <button type="button" (click)="cancelarEdicion()"> Cancelar</button>
+          </div>
+        </form>
+      </ng-template>
     </div>
   </div>
   
