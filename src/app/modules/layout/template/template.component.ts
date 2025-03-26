@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common'
   templateUrl: './template.component.html',
   styleUrl: './template.component.css'
 })
+
 export class TemplateComponent {
   get isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
