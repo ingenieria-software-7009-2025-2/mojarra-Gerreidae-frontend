@@ -11,7 +11,7 @@ import { LoginResponse } from '../_model/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class AuthService {
   // Token del usuario
   private token: string | null;
 

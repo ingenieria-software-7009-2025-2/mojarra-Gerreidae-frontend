@@ -1,0 +1,244 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: radial-gradient(ellipse at bottom, #001f3f 0%, #000814 100%);
+
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+.login-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.app-name {
+  font-size: 4rem;
+  color: #00d8ff;
+  margin-bottom: 30px;
+  text-shadow: 0 0 15px rgba(0, 216, 255, 0.8);
+}
+
+.bubble-login {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  width: 500px; 
+  height: 500px; 
+  padding: 50px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 40px rgba(255,255,255,0.2), 0 0 40px rgba(0, 216, 255, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.bubble-login:hover {
+  transform: scale(1.02);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #00d8ff;
+}
+
+.login-form input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  font-size: 1.3rem;
+}
+
+.login-form input::placeholder {
+  color: #eee;
+}
+
+.login-form .btn {
+  width: 100%;
+  padding: 10px;
+  background: #00d8ff;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  color: #001f3f;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-form .btn:hover {
+  background: #00b0cc;
+  transform: scale(1.05);
+}
+
+.ocean {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 0;
+}
+
+.bubbles span {
+  position: absolute;
+  bottom: -100px;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: rise 10s linear infinite;
+  left: calc(10% * var(--i));
+  animation-delay: calc(var(--i) * 0.5s);
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-1200px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Peces estáticos flotantes */
+.fish {
+  position: absolute;
+  width: 60px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  animation: float 4s ease-in-out infinite;
+  opacity: 0.8;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+/* Animación flotante */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Efecto al pasar el mouse por encima */
+.fish:hover {
+  transform: scale(1.3) rotate(10deg);
+  filter: drop-shadow(0 0 10px #00d8ff);
+  z-index: 100;
+}
+
+
+/* Peces que nadan de izquierda a derecha */
+.fish-ltr {
+  animation: swim-ltr 25s linear infinite, float 4s ease-in-out infinite;
+  transform: scaleX(1); /* Mira hacia la derecha */
+}
+
+/* Peces que nadan de derecha a izquierda */
+.fish-rtl {
+  animation: swim-rtl 25s linear infinite, float 4s ease-in-out infinite;
+  transform: scaleX(-1); /* Mira hacia la izquierda */
+}
+
+/* Nado izquierda a derecha */
+@keyframes swim-ltr {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: 110%;
+  }
+}
+
+/* Nado derecha a izquierda */
+@keyframes swim-rtl {
+  0% {
+    left: 110%;
+  }
+  100% {
+    left: -100px;
+  }
+}
+
+/* Peces individuales con distintas alturas y delay */
+.fish-1 {
+  top: 10%;
+  animation-delay: 0s;
+  background-image: url('/assets/pez.png');
+}
+
+.fish-2 {
+  top: 25%;
+  animation-delay: 5s;
+  background-image: url('/assets/pez2.png');
+}
+
+.fish-3 {
+  top: 40%;
+  animation-delay: 10s;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/616/616409.png');
+}
+
+.fish-4 {
+  top: 60%;
+  animation-delay: 2s;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png');
+}
+
+.fish-5 {
+  top: 80%;
+  animation-delay: 7s;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/616/616410.png');
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.register-link {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #cdefff;
+  text-align: center;
+}
+
+.register-link a {
+  color: #00d8ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+  color: #00a8cc;
+}

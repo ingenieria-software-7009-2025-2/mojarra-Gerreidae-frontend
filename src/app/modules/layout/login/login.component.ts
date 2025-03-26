@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 // Para usar formularios
-import { FormulariosModule } from '../../../../shared/formularios-module';
+import { FormulariosModule } from '../../../shared/formularios-module';
 // Manipulación de formularios
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 // Respuestas a peticiones http
@@ -11,9 +11,9 @@ import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // Service del componente
-import { LoginService } from '../_service/login.service';
+import { AuthService } from './_service/auth.service';
 // Mensajes personalizados
-import { SwalMessages } from '../../../../shared/swal-messages';
+import { SwalMessages } from '../../../shared/swal-messages';
 
 
 @Component({
@@ -50,7 +50,7 @@ export class LoginComponent {
 
   constructor( 
     private router: Router,
-    private loginService: LoginService 
+    private authService: AuthService 
   ) {}
 
   /**
@@ -70,10 +70,10 @@ export class LoginComponent {
     var loginFormValue = this.loginForm.value as { mail: string, password:string };
 
     this.subscriptions.push(
-      this.loginService.login(loginFormValue).subscribe ({
+      this.authService.login(loginFormValue).subscribe ({
         next: (response) => {
           if (response.body && response.body.token) {
-            this.loginService.saveToken(response.body.token);
+            this.authService.saveToken(response.body.token);
             
             this.swal.successMessage('Se inició sesión');
             this.router.navigateByUrl(''); 

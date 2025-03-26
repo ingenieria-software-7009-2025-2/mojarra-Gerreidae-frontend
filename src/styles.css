@@ -2,11 +2,10 @@
 
 /* Fondo de la página */
 body {
-  background: url('assets/mar.png') no-repeat center center/cover;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+  background: url('assets/fondo.jpg') no-repeat center center/cover;
+  overflow-x: hidden;
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Estilos para swal messages*/
