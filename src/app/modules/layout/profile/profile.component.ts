@@ -58,10 +58,10 @@ export class ProfileComponent {
       this.subscriptions.push(
         this.modifyService.update(updateFormValue).subscribe({
           next: () => {
-            this.swal.successMessage('Usuario registrado con éxito');
+            this.swal.successMessage('Usuario actualizado con éxito');
           },
           error: (error) => {
-            this.swal.errorMessage('Error al registrar usuario: ' + error.error.message);
+            this.swal.errorMessage('Error al actualizar usuario: ' + error.error.message);
           }
         })
       );
