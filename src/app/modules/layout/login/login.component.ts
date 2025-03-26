@@ -76,7 +76,7 @@ export class LoginComponent {
             this.authService.saveToken(response.body.token);
             
             this.swal.successMessage('Se inició sesión');
-            this.router.navigateByUrl(''); 
+            this.router.navigate(['/profile']); 
           } else {
             if (response.body === null) {
               console.log('La API no devolvió cuerpo en la respuesta');
