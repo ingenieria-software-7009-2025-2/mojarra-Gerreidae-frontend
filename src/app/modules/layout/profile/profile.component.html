@@ -17,7 +17,7 @@
   
       <ng-template #editar>
         <h2>Editar Perfil</h2>
-        <form>
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
           <div class="form-columns">
             <div class="form-col">
               <label>Nombre</label>

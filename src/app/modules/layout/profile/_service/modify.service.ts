@@ -32,6 +32,6 @@ export class ModifyService {
       mail: string;
       password: string;
   }): Observable<HttpResponse<UpdateResponse>>{
-    return this.http.put<UpdateResponse>(`${mjs_api_uri}/me`, nuevosValores, { observe: 'response' });
+    return this.http.put<UpdateResponse>(`${mjs_api_uri}/v1/users/me`, nuevosValores, { observe: 'response' });
   }
 }

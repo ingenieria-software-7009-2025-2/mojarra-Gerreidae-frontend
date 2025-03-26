@@ -62,7 +62,7 @@ export class ProfileComponent {
             this.router.navigate(['/profile']);
           },
           error: (error) => {
-            this.swal.errorMessage('Error al actualizar usuario: ' + error.error.message);
+            this.swal.errorMessage('Error al actualizar usuario: ' + error);
           }
         })
       );
