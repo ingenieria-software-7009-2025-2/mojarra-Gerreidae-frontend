@@ -36,6 +36,7 @@ export class ProfileComponent {
   });
 
   constructor (
+    private router: Router,
     private modifyService: ModifyService
   ){}
 
@@ -58,6 +59,7 @@ export class ProfileComponent {
         this.modifyService.update(updateFormValue).subscribe({
           next: () => {
             this.swal.successMessage('Usuario actualizado con éxito');
+            this.router.navigate(['/profile']);
           },
           error: (error) => {
             this.swal.errorMessage('Error al actualizar usuario: ' + error.error.message);
