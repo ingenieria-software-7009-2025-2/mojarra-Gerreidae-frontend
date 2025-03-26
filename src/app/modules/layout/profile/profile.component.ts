@@ -1,22 +1,70 @@
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormulariosModule } from '../../../shared/formularios-module';
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router';
+import { SwalMessages } from '../../../shared/swal-messages';
+import { Subscription } from 'rxjs';
+import { Router } from '../../../../../node_modules/@angular/router/index';
+import { ModifyService } from './_service/modify.service';
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, ReactiveFormsModule,RouterModule],
+  imports: [FormulariosModule, RouterModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
+  styleUrls: ['./profile.component.css'],
   standalone: true
 })
 export class ProfileComponent {
-  mostrarFormulario = false;
-  perfilForm = new FormGroup({
+  /**
+   * Suscripciones activas en el componente.
+   */
+   private subscriptions: Subscription[] = [];
 
+   swal: SwalMessages = new SwalMessages(); // swal messages
+ 
+  mostrarFormulario = false;
+  /**
+   * Formulario utilizado para hacer el update de mensajes.
+   */
+  updateForm = new FormGroup({
+    nombre : new FormControl('', []),
+    apellidoP: new FormControl('', []),
+    apellidoM: new FormControl('', []),
+    mail: new FormControl('', [Validators.email]),
+    password: new FormControl('', [Validators.minLength(8)]),
+    confirmPassword: new FormControl('', [])
   });
+
+  constructor (
+    private router: Router, 
+    private modifyService: ModifyService
+  ){}
+
   onSubmit() {
-    if (this.perfilForm.valid) {
+    if (this.updateForm.valid) {
       this.mostrarFormulario = false;
+      if (this.updateForm.value.password !== this.updateForm.value.confirmPassword && this.updateForm.value.password != "") {
+        this.swal.errorMessage('Las contraseñas no coinciden.');
+        return;
+      }
+      const updateFormValue = this.updateForm.value as { 
+        idUsuario: number;
+        nombre: string;
+        apellidoP: string;
+        apellidoM: string;
+        mail: string;
+        password: string;
+      };
+      this.subscriptions.push(
+        this.modifyService.update(updateFormValue).subscribe({
+          next: () => {
+            this.swal.successMessage('Usuario registrado con éxito');
+          },
+          error: (error) => {
+            this.swal.errorMessage('Error al registrar usuario: ' + error.error.message);
+          }
+        })
+      );
     }
   }
   editarPerfil() {
