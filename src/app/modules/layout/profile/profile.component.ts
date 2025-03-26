@@ -27,11 +27,11 @@ export class ProfileComponent {
    * Formulario utilizado para hacer el update de mensajes.
    */
   updateForm = new FormGroup({
-    nombre : new FormControl('', []),
-    apellidoP: new FormControl('', []),
-    apellidoM: new FormControl('', []),
-    mail: new FormControl('', [Validators.email]),
-    password: new FormControl('', [Validators.minLength(8)]),
+    nombre : new FormControl('', [Validators.required]),
+    apellidoP: new FormControl('', [Validators.required]),
+    apellidoM: new FormControl('', [Validators.required]),
+    mail: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     confirmPassword: new FormControl('', [])
   });
 
