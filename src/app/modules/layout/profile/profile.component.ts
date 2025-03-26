@@ -36,7 +36,6 @@ export class ProfileComponent {
   });
 
   constructor (
-    private router: Router, 
     private modifyService: ModifyService
   ){}
 
@@ -73,5 +72,11 @@ export class ProfileComponent {
 
   cancelarEdicion() {
     this.mostrarFormulario = false;
+  }
+  /**
+   * libera recursos
+   */
+   ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
