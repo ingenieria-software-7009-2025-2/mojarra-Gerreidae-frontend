@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router';
 import { SwalMessages } from '../../../shared/swal-messages';
 import { Subscription } from 'rxjs';
-import { Router } from '../../../../../node_modules/@angular/router/index';
+import { Router } from '@angular/router';
 import { ModifyService } from './_service/modify.service';
 @Component({
   selector: 'app-profile',
