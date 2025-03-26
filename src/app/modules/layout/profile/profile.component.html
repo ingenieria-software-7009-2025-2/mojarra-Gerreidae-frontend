@@ -3,10 +3,10 @@
       <ng-container *ngIf="!mostrarFormulario; else editar">
         <h2> Mi Perfil</h2>
         <div class="datos-usuario">
-          <p><strong>Nombre:</strong> </p>
-          <p><strong>Apellido Paterno:</strong> </p>
-          <p><strong>Apellido Materno:</strong> </p>
-          <p><strong>Correo:</strong> </p>
+          <p><strong>Nombre:{{user.nombre}}</strong> </p>
+          <p><strong>Apellido Paterno:{{user.apellidoP}}</strong> </p>
+          <p><strong>Apellido Materno:{{user.apellidoM}}</strong> </p>
+          <p><strong>Correo:{{user.mail}}</strong> </p>
         </div>
         <div class="btn-container">
             <button (click)="editarPerfil()">Editar Perfil</button>

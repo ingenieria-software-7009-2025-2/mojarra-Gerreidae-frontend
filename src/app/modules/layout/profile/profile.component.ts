@@ -7,6 +7,8 @@ import { SwalMessages } from '../../../shared/swal-messages';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ModifyService } from './_service/modify.service';
+import { MeResponse } from './_model/MeResponse';
+import { MeService } from './_service/me.service';
 @Component({
   selector: 'app-profile',
   imports: [FormulariosModule, RouterModule],
@@ -19,6 +21,7 @@ export class ProfileComponent {
    * Suscripciones activas en el componente.
    */
    private subscriptions: Subscription[] = [];
+   public user: MeResponse = new MeResponse();
 
    swal: SwalMessages = new SwalMessages(); // swal messages
  
@@ -37,7 +40,8 @@ export class ProfileComponent {
 
   constructor (
     private router: Router,
-    private modifyService: ModifyService
+    private modifyService: ModifyService,
+    private meService: MeService
   ){}
 
   onSubmit() {
@@ -81,4 +85,48 @@ export class ProfileComponent {
    ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
+
+    ngOnInit(): void{
+      this.meObten();
+    }
+
+
+
+   meObten(): void {
+    this.subscriptions.push(
+      this.meService.me().subscribe({
+        next: (response) => {
+          console.log(response.body);
+          this.user.nombre = response.body? response.body.nombre : "";
+          this.user.apellidoM = response.body? response.body.apellidoM : "";
+          this.user.apellidoP = response.body? response.body.apellidoP : "";
+          this.user.mail = response.body? response.body.mail : "";
+        },
+        error: (error) => {
+          this.swal.errorMessage('Error al actualizar usuario: ' + error);
+        }
+      })
+    );
+   }
+
+
+
+
+
+/*
+meObten(): void {
+  this.subscriptions.push(
+    this.meService.me().subscribe({
+      next: (response) => {
+        const { nombre = '', apellidoM = '', apellidoP = '', correo = '' } = response.body || {};
+        this.user = { nombre, apellidoM, apellidoP, correo };
+      },
+      error: (error) => {
+        this.swal.errorMessage('Error al obtener usuario: ' + error);
+      }
+    })
+  );
+}
+*/
+
 }
