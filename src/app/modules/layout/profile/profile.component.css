@@ -130,7 +130,7 @@
   }
   .btn-red {
     padding: 12px 30px;
-    background: #ff4d4d;
+    background: #ff9933;
     color: white;
     font-weight: bold;
     font-size: 1.1rem;
@@ -141,7 +141,7 @@
   }
   
   .btn-red:hover {
-    background: #e63939;
+    background: #ff8c1a;
     transform: scale(1.05);
   }
   
