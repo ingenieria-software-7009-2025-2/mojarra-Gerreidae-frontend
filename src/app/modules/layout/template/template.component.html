@@ -1,0 +1,50 @@
+<!-- HEADER tipo Inbursa -->
+<header class="header">
+    <div class="logo">MojarraDrive</div>
+    <nav>
+      <!-- Si NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn; else loggedIn">
+        <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
+        <a routerLink="/register" routerLinkActive="active">Registrarse</a>
+      </ng-container>
+
+      <!-- Si SÍ está logueado -->
+      <ng-template #loggedIn>
+        <a routerLink="/profile" routerLinkActive="active">Perfil</a>
+        <a (click)="cerrarSesion()">Cerrar Sesión</a>
+      </ng-template>
+    </nav>
+  </header>
+
+
+  <!-- OCEAN BACKGROUND + BUBBLES + PECECILLOS -->
+  <div class="ocean-layer">
+    <div class="bubbles">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+      <span style="--i:4;"></span>
+      <span style="--i:5;"></span>
+    </div>
+
+
+    <!-- CONTENIDO PRINCIPAL INYECTADO -->
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- FOOTER agregado -->
+    <footer class="footer">
+      <div class="footer-content">
+        <h3>MojarraDrive</h3>
+
+        <div class="footer-social">
+          <a href="https://www.instagram.com/mojarradrive/"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" /></a>
+          <a href="https://www.youtube.com/channel/UCxkcHw1Vl7LWbOWnwIr5_DQ"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="Youtube" /></a>
+          <a href="https://x.com/MojarraDrive"><img src="https://images.icon-icons.com/122/PNG/512/twitter_socialnetwork_20007.png" alt="Twitter" /></a>
+        </div>
+
+        <p class="footer-copy">MojarraDrive</p>
+      </div>
+    </footer>
+  </div>

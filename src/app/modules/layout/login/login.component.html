@@ -1,0 +1,34 @@
+<div class="login-container">
+    <h1 class="app-name">MojarraDrive</h1>
+  
+    <div class="ocean">
+      <div class="bubbles">
+        <span style="--i:1;"></span>
+        <span style="--i:3;"></span>
+        <span style="--i:6;"></span>
+        <span style="--i:9;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:21;"></span>
+        <span style="--i:24;"></span>
+        <span style="--i:27;"></span>
+      </div>
+  
+      <!-- pecezuelos -->
+      <div class="fish car-fish-1"></div>
+      <div class="fish car-fish-2"></div>
+      <div class="fish car-fish-3"></div>
+    </div>
+  
+    <!-- Contenedor del formulario -->
+    <div class="bubble-login text-center p-4">
+      <h2 class="login-title">Inicia Sesión</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+        <input type="text" class="form-control" placeholder="Correo" formControlName="mail" required>
+        <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" required>
+        <button type="submit" class="btn btn-primary">→</button>
+      </form>
+    </div>
+  </div>
+  
