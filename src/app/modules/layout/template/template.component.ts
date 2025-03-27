@@ -27,28 +27,24 @@ export class TemplateComponent {
     swal: SwalMessages = new SwalMessages(); // swal messages
 
   get isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return this.authService.isUserLoggedIn();
   }
 
   cerrarSesion() {
     this.subscriptions.push(
       this.authService.logout().subscribe ({
-        next: (response) => {
-          if (response) {
-            this.authService.deleteToken();
-            
-            this.swal.successMessage('Se cerró tu sesión correctamente');
-            this.router.navigate(['/']); 
-          } else {
-            console.log('La API no devolvió una respuesta');
-            return;
-          }
+        next: () => {    
+          this.authService.deleteToken();
+          
+          this.swal.successMessage('Se cerró tu sesión correctamente');
+          this.router.navigate(['/']); 
+          
         },
         error: (e) => {
           console.log(e);
         }
-      })
-    )
+      }
+    ))
   }
 
   ngOnDestroy(): void {

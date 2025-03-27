@@ -39,13 +39,8 @@ export class AuthService {
    * @returns un observable que emite la respuesta HTTP de la
    * API.
    */
-  public logout(): Observable<HttpResponse<number>> {
-    return this.http.post<number>(`${mjs_api_uri}/v1/users/logout`, null, { observe: 'response' });
-  }
-
-
-  public createUser(): Observable<HttpResponse<number>> {;
-    return this.http.post<number>(`${mjs_api_uri}/v1/users`, null, { observe: 'response' });
+  public logout(): Observable<string> {
+    return this.http.post('http://localhost:8080/v1/users/logout', null, { responseType: 'text' });
   }
 
   /**
@@ -71,7 +66,7 @@ export class AuthService {
    * Función para cargar el token del usuario desde el
    * Local Storage.
    */
-  public setToken(): void {
+  public loadToken(): void {
     this.token = localStorage.getItem('token');
   }
 
@@ -82,5 +77,10 @@ export class AuthService {
    */
   public getToken(): string | null {
     return this.token;
+  }
+
+  public isUserLoggedIn(): boolean {
+    this.loadToken();
+    return !!this.token;
   }
 }
