@@ -63,7 +63,9 @@ export class ProfileComponent {
         this.modifyService.update(updateFormValue).subscribe({
           next: () => {
             this.swal.successMessage('Usuario actualizado con éxito');
-            this.router.navigate(['/profile']);
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/profile']);
+            });            
           },
           error: (error) => {
             this.swal.errorMessage('Error al actualizar usuario: ' + error);
