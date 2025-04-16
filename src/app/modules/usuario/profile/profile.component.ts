@@ -20,10 +20,10 @@ export class ProfileComponent {
   /**
    * Suscripciones activas en el componente.
    */
-   private subscriptions: Subscription[] = [];
-   public user: MeResponse = new MeResponse();
+  private subscriptions: Subscription[] = [];
+  public user: MeResponse = new MeResponse();
 
-   swal: SwalMessages = new SwalMessages(); // swal messages
+  swal: SwalMessages = new SwalMessages(); // swal messages
  
   mostrarFormulario = false;
   /**
@@ -75,6 +75,15 @@ export class ProfileComponent {
     }
   }
   editarPerfil() {
+    this.updateForm.patchValue({
+      nombre: this.user.nombre,
+      apellidoP: this.user.apellidoP,
+      apellidoM: this.user.apellidoM,
+      mail: this.user.mail,
+      password: '', // se deja vacío por seguridad
+      confirmPassword: ''
+    });
+    
     this.mostrarFormulario = true;
   }
 

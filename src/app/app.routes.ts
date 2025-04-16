@@ -3,14 +3,24 @@ import { LoginComponent } from './modules/usuario/login/login.component';
 import { RegisterComponent } from './modules/usuario/register/register.component';
 import { TemplateComponent } from './modules/usuario/template/template.component';
 import { ProfileComponent } from './modules/usuario/profile/profile.component';
+import { authenticationGuard } from './core/auth/authentication.guard';
 export const routes: Routes = [
   {
     path: '',
     component: TemplateComponent,
     children: [
-      { path: 'register', component: RegisterComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'profile', component: ProfileComponent },
+      { 
+        path: 'register', 
+        component: RegisterComponent 
+      },
+      { 
+        path: 'login', 
+        component: LoginComponent 
+      },
+      { path: 'profile', 
+        component: ProfileComponent,
+        canActivate: [authenticationGuard] 
+      },
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }
