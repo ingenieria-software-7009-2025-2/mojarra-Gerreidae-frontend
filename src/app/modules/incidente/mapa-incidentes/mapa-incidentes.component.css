@@ -1,0 +1,43 @@
+    .main-layout {
+        display: flex;
+        position: relative;
+        height: 100vh;
+    }
+
+    .sidebar {
+        width: 30%; 
+        background-color: #eef2f7;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #eef2f7;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .item-list li:hover {
+        background-color: #00d8ff;
+    }
+
+    .map-container {
+        flex: 1;
+        height: 100%;
+        width: 70%;
+        position: relative;
+    }
+
+    .map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }      
