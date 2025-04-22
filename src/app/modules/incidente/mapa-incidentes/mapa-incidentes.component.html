@@ -2,9 +2,23 @@
     <!-- LISTA INCIDENTES -->
     <div class="sidebar">
       <ul class="item-list">
-        <li>Elemento 1</li>
-        <li>Elemento 2</li>
-        <li>Elemento 3</li>
+        <li *ngFor="let incidente of incidentes" 
+            (click)="toggleIncidente(incidente)" 
+            [class.selected]="openIncidentes.has(incidente)">
+          
+          <strong>{{ incidente.tipo }}</strong> - {{ incidente.estado }}
+
+          <div *ngIf="openIncidentes.has(incidente)" class="detalle">
+            <p><strong>Descripción:</strong> {{ incidente.descripcion }}</p>
+            <p><strong>Fecha:</strong> {{ incidente.fecha | date:'short' }}</p>
+            <p><strong>Coordenadas:</strong> {{ incidente.lat }}, {{ incidente.lng }}</p>
+
+            <div class="btn-container">
+              <button type="button" (click)="onEditar(incidente)">Editar</button>
+              <button type="button" (click)="onEliminar(incidente)">Eliminar</button>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   
