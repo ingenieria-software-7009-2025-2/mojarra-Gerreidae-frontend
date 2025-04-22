@@ -14,9 +14,11 @@ import { LoginResponse } from '../_model/LoginResponse';
 export class AuthService {
   // Token del usuario
   private token: string | null;
+  private esAdministrador: number;
 
   constructor(private http: HttpClient) {
     this.token = null;
+    this.esAdministrador = -1;
   }
 
   /**
@@ -39,7 +41,7 @@ export class AuthService {
    * @returns un observable que emite la respuesta HTTP de la
    * API.
    */
-  public logout(): Observable<string> {
+  public logout(): Observable<number> {
     return this.http.post('http://localhost:8080/v1/users/logout', null, { responseType: 'text' });
   }
 
@@ -62,6 +64,16 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+ /**
+   * Función para guardar en el Local Storage un número que indica el usuario es Administrador.
+   *
+   * @param esAdministrador el número que indica si el usuario es administrador
+   */
+  public saveIsAdmin(esAdministrador: number): void {
+    this.esAdministrador = esAdministrador;
+    localStorage.setItem('esAdministrador', esAdministrador);
+  }
+
   /**
    * Función para cargar el token del usuario desde el
    * Local Storage.
@@ -71,12 +83,29 @@ export class AuthService {
   }
 
   /**
+   * Función para cargar el número esAdministrador del usuario desde el
+   * Local Storage.
+   */
+  public loadEsAdmin(): void {
+    this.esAdministrador = localStorage.getItem('esAdministrador');
+  }
+
+  /**
    * Función para obtener el token delusuario.
    *
    * @returns el token del usuario o null
    */
   public getToken(): string | null {
     return this.token;
+  }
+
+  /**
+   * Función para obtener el numero esAdministrador.
+   *
+   * @returns número indicando si el usuario es Administrador
+   */
+  public isUserAdmin(): number | null {
+    return this.esAdministrador;
   }
 
   public isUserLoggedIn(): boolean {

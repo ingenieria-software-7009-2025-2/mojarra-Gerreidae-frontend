@@ -1,15 +1,15 @@
-export class LoginResponse{  
+export class LoginResponse{
     nombre: string = "";
     apellidoP: string = "";
     apellidoM: string = "";
     correo: string = "";
     password: string = "";
-    token: string = ""; 
-    rol: number = -1;
+    token: string = "";
+    esAdministrador: number = -1;
 
-    constructor(token: string, rol: number, nombre: string, apellidoP: string, apellidoM: string){
+    constructor(token: string, esAdministrador: number, nombre: string, apellidoP: string, apellidoM: string){
         this.token = token;
-        this.rol = rol;
+        this.esAdministrador = esAdministrador;
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;

@@ -33,11 +33,11 @@ export class LoginComponent {
   swal: SwalMessages = new SwalMessages(); // swal messages
 
 
-  /** FormGroup para el formulario del login 
-   * 
-   * Un FormGroup es un conjunto de FormControl's que dependen 
+  /** FormGroup para el formulario del login
+   *
+   * Un FormGroup es un conjunto de FormControl's que dependen
    * entre sí.
-   * 
+   *
    * Un FormControl sirve para monitorear el estado y valor de una
    * entrada en un formulario.
   */
@@ -48,9 +48,9 @@ export class LoginComponent {
     }
   )
 
-  constructor( 
+  constructor(
     private router: Router,
-    private authService: AuthService 
+    private authService: AuthService
   ) {}
 
   /**
@@ -62,7 +62,7 @@ export class LoginComponent {
   }
 
   /**
-   * Función para realizar el login del usuario a 
+   * Función para realizar el login del usuario a
    * través del fomulario `loginForm`.
    */
   public onLogin() {
@@ -74,9 +74,8 @@ export class LoginComponent {
         next: (response) => {
           if (response.body && response.body.token) {
             this.authService.saveToken(response.body.token);
-            
             this.swal.successMessage('Se inició sesión');
-            this.router.navigate(['/profile']); 
+            this.router.navigate(['/profile']);
           } else {
             if (response.body === null) {
               console.log('La API no devolvió cuerpo en la respuesta');
@@ -95,12 +94,12 @@ export class LoginComponent {
 
   /**
    * Esta función es parte del ciclo de vida de los componentes de
-   * angular, al igual que `ngOnInit`, pero `ngOnDestroy` 
-   * es el método que se ejecuta justo antes de que el 
-   * componente deje de ser visible, por ejemplo en un cambio de 
+   * angular, al igual que `ngOnInit`, pero `ngOnDestroy`
+   * es el método que se ejecuta justo antes de que el
+   * componente deje de ser visible, por ejemplo en un cambio de
    * página.
-   * 
-   * Lo que hacemos en este caso es limpiar la lista de 
+   *
+   * Lo que hacemos en este caso es limpiar la lista de
    * suscripciones para liberar recursos y evitar suscripciones
    * huérfanas.
    */
