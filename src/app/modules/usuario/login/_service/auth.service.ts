@@ -14,11 +14,11 @@ import { LoginResponse } from '../_model/LoginResponse';
 export class AuthService {
   // Token del usuario
   private token: string | null;
-  private esAdministrador: number;
+  private esAdministrador: string | null;
 
   constructor(private http: HttpClient) {
     this.token = null;
-    this.esAdministrador = -1;
+    this.esAdministrador = null;
   }
 
   /**
@@ -41,7 +41,7 @@ export class AuthService {
    * @returns un observable que emite la respuesta HTTP de la
    * API.
    */
-  public logout(): Observable<number> {
+  public logout(): Observable<string> {
     return this.http.post('http://localhost:8080/v1/users/logout', null, { responseType: 'text' });
   }
 
@@ -70,8 +70,8 @@ export class AuthService {
    * @param esAdministrador el número que indica si el usuario es administrador
    */
   public saveIsAdmin(esAdministrador: number): void {
-    this.esAdministrador = esAdministrador;
-    localStorage.setItem('esAdministrador', esAdministrador);
+    this.esAdministrador = esAdministrador.toString();
+    localStorage.setItem('esAdministrador', esAdministrador.toString());
   }
 
   /**
@@ -104,8 +104,8 @@ export class AuthService {
    *
    * @returns número indicando si el usuario es Administrador
    */
-  public isUserAdmin(): number | null {
-    return this.esAdministrador;
+  public isUserAdmin(): boolean {
+    return this.esAdministrador == "1";
   }
 
   public isUserLoggedIn(): boolean {
