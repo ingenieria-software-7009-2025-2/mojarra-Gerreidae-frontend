@@ -30,7 +30,7 @@ export class TemplateComponent {
     return this.authService.isUserLoggedIn();
   }
 
-  get isAdmin(): boolean {
+  get isUserAdmin(): boolean {
     return this.authService.isUserAdmin();
   }
 
@@ -39,6 +39,7 @@ export class TemplateComponent {
       this.authService.logout().subscribe ({
         next: () => {
           this.authService.deleteToken();
+          this.authService.deleteIsAdmin();
 
           this.swal.successMessage('Se cerró tu sesión correctamente');
           this.router.navigate(['/']);

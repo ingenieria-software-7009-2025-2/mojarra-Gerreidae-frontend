@@ -55,6 +55,15 @@ export class AuthService {
   }
 
   /**
+   * Función para eliminar el rol del usuario
+   * del Local Storage.
+   */
+  public deleteIsAdmin(): void {
+    this.esAdministrador = null;
+    localStorage.removeItem('esAdministrador');
+  }
+
+  /**
    * Función para guardar en el Local Storage el token del usuario.
    *
    * @param token el token del usuario
@@ -65,13 +74,13 @@ export class AuthService {
   }
 
  /**
-   * Función para guardar en el Local Storage un número que indica el usuario es Administrador.
+   * Función para guardar en el Local Storage el rol del usuario
    *
-   * @param esAdministrador el número que indica si el usuario es administrador
+   * @param esAdministrador el rol del usuario
    */
-  public saveIsAdmin(esAdministrador: number): void {
-    this.esAdministrador = esAdministrador.toString();
-    localStorage.setItem('esAdministrador', esAdministrador.toString());
+  public saveIsAdmin(esAdministrador: string): void {
+    this.esAdministrador = esAdministrador;
+    localStorage.setItem('esAdministrador', esAdministrador);
   }
 
   /**
@@ -83,15 +92,15 @@ export class AuthService {
   }
 
   /**
-   * Función para cargar el número esAdministrador del usuario desde el
+   * Función para cargar el rol del usuario desde el
    * Local Storage.
    */
-  public loadEsAdmin(): void {
+  public loadIsAdmin(): void {
     this.esAdministrador = localStorage.getItem('esAdministrador');
   }
 
   /**
-   * Función para obtener el token delusuario.
+   * Función para obtener el token del usuario.
    *
    * @returns el token del usuario o null
    */
@@ -100,9 +109,18 @@ export class AuthService {
   }
 
   /**
-   * Función para obtener el numero esAdministrador.
+   * Función para obtener el rol del usuario.
    *
-   * @returns número indicando si el usuario es Administrador
+   * @returns el rol del usuario o null
+   */
+  public getIsAdmin(): string | null {
+    return this.esAdministrador;
+  }
+
+  /**
+   * Función para obtener si el usuario es un administrador
+   *
+   * @returns boolean indicando si el usuario es Administrador
    */
   public isUserAdmin(): boolean {
     return this.esAdministrador == "1";
@@ -112,4 +130,8 @@ export class AuthService {
     this.loadToken();
     return !!this.token;
   }
+
+ public cleaning(): void {
+   localStorage.clear();
+ }
 }
