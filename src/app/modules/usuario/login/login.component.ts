@@ -65,34 +65,34 @@ export class LoginComponent {
    * Función para realizar el login del usuario a
    * través del fomulario `loginForm`.
    */
-  public onLogin() {
-    // obtenemos los valores del formulario
-    var loginFormValue = this.loginForm.value as { mail: string, password:string };
+   public onLogin() {
+     var loginFormValue = this.loginForm.value as { mail: string, password: string };
 
-    this.subscriptions.push(
-      this.authService.login(loginFormValue).subscribe ({
-        next: (response) => {
-          if (response.body && response.body.token) {
-            this.authService.saveToken(response.body.token);
-            this.authService.saveIsAdmin(response.body.esAdministrador.toString());
+     this.subscriptions.push(
+       this.authService.login(loginFormValue).subscribe({
+         next: (response) => {
+           if (response.body && response.body.token) {
+             this.authService.saveToken(response.body.token);
+             this.authService.saveIsAdmin(response.body.esAdministrador.toString());
 
-            this.swal.successMessage('Se inició sesión');
-            this.router.navigate(['/profile']);
-          } else {
-            if (response.body === null) {
-              console.log('La API no devolvió cuerpo en la respuesta');
-              return;
-            }
-            console.log('El token devuelto no fue poblado');
-            return;
-          }
-        },
-        error: (e) => {
-          console.log(e.error.message);
-        }
-      })
-    )
-  }
+             this.swal.successMessage('Se inició sesión');
+
+             if (response.body.esAdministrador) {
+               this.router.navigate(['/admin-panel']); // Admin
+             } else {
+               this.router.navigate(['/profile']); // Usuario normal
+             }
+           } else {
+             console.log('El token devuelto no fue poblado o respuesta vacía');
+           }
+         },
+         error: (e) => {
+           console.log(e.error.message);
+         }
+       })
+     );
+   }
+
 
   /**
    * Esta función es parte del ciclo de vida de los componentes de

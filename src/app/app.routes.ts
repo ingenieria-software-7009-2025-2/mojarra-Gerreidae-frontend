@@ -5,26 +5,32 @@ import { TemplateComponent } from './modules/usuario/template/template.component
 import { ProfileComponent } from './modules/usuario/profile/profile.component';
 import { authenticationGuard } from './core/auth/authentication.guard';
 import { MapaIncidentesComponent } from './modules/incidente/mapa-incidentes/mapa-incidentes.component';
+import { AdminPanelComponent } from './modules/administrador/admin-panel/admin-panel.component';
+
 export const routes: Routes = [
   {
     path: '',
     component: TemplateComponent,
     children: [
-      { 
-        path: 'register', 
-        component: RegisterComponent 
+      {
+        path: 'register',
+        component: RegisterComponent
       },
       {
         path: 'home',
         component: MapaIncidentesComponent
       },
-      { 
-        path: 'login', 
-        component: LoginComponent 
+      {
+        path: 'login',
+        component: LoginComponent
       },
-      { path: 'profile', 
+      {
+        path: 'admin-panel',
+        component: AdminPanelComponent
+      },
+      { path: 'profile',
         component: ProfileComponent,
-        canActivate: [authenticationGuard] 
+        canActivate: [authenticationGuard]
       },
     ]
   },

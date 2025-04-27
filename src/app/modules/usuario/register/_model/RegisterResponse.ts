@@ -3,15 +3,15 @@ export class RegisterResponse {
     nombre: string = "";
     apellidoP: string = "";
     apellidoM: string = "";
-    correo: string = "";  // Renamed to match backend
+    correo: string = "";
     password: string = "";
-    token: string = ""; 
+    token: string = "";
 
     constructor(token: string, nombre: string, apellidoP: string, apellidoM: string, correo: string){
         this.token = token;
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
-        this.correo = correo; // Match mail from backend
+        this.correo = correo;
     }
 }

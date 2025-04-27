@@ -14,21 +14,21 @@ import { RegisterResponse } from '../_model/RegisterResponse'
 export class RegisterService {
   // token del usuario
   private token: string | null;
-  
-  constructor(private http: HttpClient) { 
+
+  constructor(private http: HttpClient) {
     this.token = null;
   }
 
   /**
-   * Funcion para realizar crear usuario 
-   * 
+   * Funcion para crear usuario
+   *
    * @param credenciales nombre, apellidos, correo, contraseña
    * del usuario por agregar
-   * @returns un observable que emite la repsuesta HTTP a la API, 
+   * @returns un observable que emite la repsuesta HTTP a la API,
    * en formato 'RegisterResponse'
    */
   public register(
-    credenciales: { 
+    credenciales: {
       nombre: string;
       apellidoP: string;
       apellidoM: string;
@@ -38,7 +38,7 @@ export class RegisterService {
   ): Observable<HttpResponse<RegisterResponse>> {
     return this.http.post<RegisterResponse>(`${mjs_api_uri}/v1/users`, credenciales, { observe: 'response' });
   }
-  
+
 
   /**
    * Función para realizar una petición de logout a la
@@ -79,7 +79,7 @@ export class RegisterService {
   }
 
   /**
-   * Función para obtener el token delusuario.
+   * Función para obtener el token del usuario.
    *
    * @returns el token del usuario o null
    */
