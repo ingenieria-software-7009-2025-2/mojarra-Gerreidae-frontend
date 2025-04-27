@@ -4,6 +4,7 @@ import { RegisterComponent } from './modules/usuario/register/register.component
 import { TemplateComponent } from './modules/usuario/template/template.component';
 import { ProfileComponent } from './modules/usuario/profile/profile.component';
 import { authenticationGuard } from './core/auth/authentication.guard';
+import { MapaIncidentesComponent } from './modules/incidente/mapa-incidentes/mapa-incidentes.component';
 export const routes: Routes = [
   {
     path: '',
@@ -12,6 +13,10 @@ export const routes: Routes = [
       { 
         path: 'register', 
         component: RegisterComponent 
+      },
+      {
+        path: 'home',
+        component: MapaIncidentesComponent
       },
       { 
         path: 'login', 
@@ -23,7 +28,7 @@ export const routes: Routes = [
       },
     ]
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 

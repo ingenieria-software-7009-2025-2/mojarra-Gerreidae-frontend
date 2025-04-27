@@ -1,0 +1,86 @@
+    .main-layout {
+        display: flex;
+        position: relative;
+        height: 100vh;
+    }
+
+    .sidebar {
+        width: 30%; 
+        background-color: transparent;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #eef2f7;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .item-list li:hover {
+        background-color: #00d8ff;
+    }
+
+    .map-container {
+        flex: 1;
+        height: 100%;
+        width: 70%;
+        position: relative;
+    }
+
+    .map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }    
+    
+    .item-list li.selected {
+        background-color: #ebf4f7;
+        border-left: 4px solid #00bcd4;
+    }
+    
+    .detalle {
+        margin-top: 10px;
+        font-size: 0.9em;
+    }
+
+    /* Botones */
+    .btn-container {
+        margin-top: 30px;
+        text-align: center;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    button {
+        padding: 12px 30px;
+        background: #00d8ff;
+        color: #001f3f;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+    
+    button:hover:not(:disabled) {
+        background: #00aacc;
+        transform: scale(1.03);
+    }
+    
+    button:disabled {
+        background: #888;
+        color: #ccc;
+        cursor: not-allowed;
+    }  
