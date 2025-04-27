@@ -14,9 +14,11 @@ import { LoginResponse } from '../_model/LoginResponse';
 export class AuthService {
   // Token del usuario
   private token: string | null;
+  private esAdministrador: string | null;
 
   constructor(private http: HttpClient) {
     this.token = null;
+    this.esAdministrador = null;
   }
 
   /**
@@ -53,6 +55,15 @@ export class AuthService {
   }
 
   /**
+   * Función para eliminar el rol del usuario
+   * del Local Storage.
+   */
+  public deleteIsAdmin(): void {
+    this.esAdministrador = null;
+    localStorage.removeItem('esAdministrador');
+  }
+
+  /**
    * Función para guardar en el Local Storage el token del usuario.
    *
    * @param token el token del usuario
@@ -60,6 +71,16 @@ export class AuthService {
   public saveToken(token: string): void {
     this.token = token;
     localStorage.setItem('token', token);
+  }
+
+ /**
+   * Función para guardar en el Local Storage el rol del usuario
+   *
+   * @param esAdministrador el rol del usuario
+   */
+  public saveIsAdmin(esAdministrador: string): void {
+    this.esAdministrador = esAdministrador;
+    localStorage.setItem('esAdministrador', esAdministrador);
   }
 
   /**
@@ -71,7 +92,15 @@ export class AuthService {
   }
 
   /**
-   * Función para obtener el token delusuario.
+   * Función para cargar el rol del usuario desde el
+   * Local Storage.
+   */
+  public loadIsAdmin(): void {
+    this.esAdministrador = localStorage.getItem('esAdministrador');
+  }
+
+  /**
+   * Función para obtener el token del usuario.
    *
    * @returns el token del usuario o null
    */
@@ -79,8 +108,30 @@ export class AuthService {
     return this.token;
   }
 
+  /**
+   * Función para obtener el rol del usuario.
+   *
+   * @returns el rol del usuario o null
+   */
+  public getIsAdmin(): string | null {
+    return this.esAdministrador;
+  }
+
+  /**
+   * Función para obtener si el usuario es un administrador
+   *
+   * @returns boolean indicando si el usuario es Administrador
+   */
+  public isUserAdmin(): boolean {
+    return this.esAdministrador == "1";
+  }
+
   public isUserLoggedIn(): boolean {
     this.loadToken();
     return !!this.token;
   }
+
+ public cleaning(): void {
+   localStorage.clear();
+ }
 }

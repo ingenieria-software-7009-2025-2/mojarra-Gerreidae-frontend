@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 
 export class TemplateComponent {
 
-  constructor( 
+  constructor(
     private router: Router,
     private authService:AuthService
   ){}
@@ -30,15 +30,20 @@ export class TemplateComponent {
     return this.authService.isUserLoggedIn();
   }
 
+  get isUserAdmin(): boolean {
+    return this.authService.isUserAdmin();
+  }
+
   cerrarSesion() {
     this.subscriptions.push(
       this.authService.logout().subscribe ({
-        next: () => {    
+        next: () => {
           this.authService.deleteToken();
-          
+          this.authService.deleteIsAdmin();
+
           this.swal.successMessage('Se cerró tu sesión correctamente');
-          this.router.navigate(['/']); 
-          
+          this.router.navigate(['/']);
+
         },
         error: (e) => {
           console.log(e);
