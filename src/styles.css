@@ -1,9 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
 
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+:root {
+  --navy: #001f3f;
+  --white: #ffffff;
+  --accent: #0c7b93;
+  --light: #f5faff;
+  --transition: 0.3s ease;
+  --font: 'Montserrat', sans-serif;
+  --primary-color: #001f3f;
+  --secondary-color: #001f3f;
+  --accent-color: #4895ef;
+  --danger-color: #f72585;
+  --success-color: #4cc9f0;
+  --warning-color: #f8961e;
+  --info-color: #577590;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --text-color: #2b2d42;
+  --text-light: #8d99ae;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 /* Fondo de la página */
 body {
   background: url('assets/fondo.jpg') no-repeat center center/cover;
-  overflow-x: hidden;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }

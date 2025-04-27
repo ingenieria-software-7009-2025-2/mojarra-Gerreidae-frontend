@@ -15,7 +15,7 @@ export const routes: Routes = [
         component: RegisterComponent 
       },
       {
-        path: 'home',
+        path: 'map',
         component: MapaIncidentesComponent
       },
       { 
@@ -28,7 +28,7 @@ export const routes: Routes = [
       },
     ]
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '**', redirectTo: 'mapa', pathMatch: 'full' }
 ];
 
 
