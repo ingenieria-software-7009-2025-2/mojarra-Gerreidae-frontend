@@ -46,7 +46,7 @@ export class ProfileComponent {
 
   onSubmit() {
     if (this.updateForm.valid) {
-      console.log(JSON.stringify(this.updateForm.value))
+      // console.log(JSON.stringify(this.updateForm.value))
       this.mostrarFormulario = false;
       if (this.updateForm.value.password !== this.updateForm.value.confirmPassword && this.updateForm.value.password != "") {
         this.swal.errorMessage('Las contraseñas no coinciden.');
