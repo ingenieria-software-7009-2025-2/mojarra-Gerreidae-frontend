@@ -2,10 +2,10 @@
   <!-- Mapa -->
   <div class="map-wrapper">
     <div #map class="map"></div>
-    <button class="btn-report" [routerLink]="['/report']">
-      <i class="fas fa-plus-circle"></i>
-      Reportar Incidente
+    <button class="btn-report" (click)="reportarNuevoIncidente()">
+      <i class="fas fa-plus-circle"></i> Reportar Incidente
     </button>
+    
   </div>
 
   <!-- Lista de incidentes -->

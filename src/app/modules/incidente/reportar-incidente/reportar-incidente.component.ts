@@ -20,6 +20,8 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   reportForm!: FormGroup;
   map!: Map;
   marker!: Marker;
+  selectedImages: string[] = []; // Para almacenar las imágenes en Base64
+  maxImages = 3; // Límite de imágenes
 
   private apiKey = 'E2rqKhxKFWqMTrQt5uw2';
   private geocodeUrl = 'https://api.maptiler.com/geocoding/';
@@ -53,7 +55,8 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
     this.reportForm = this.fb.group({
       address: ['', Validators.required],
       type: ['', Validators.required],
-      comment: ['']
+      comment: [''],
+      images: [[]] // Para almacenar las imágenes en el formulario
     });
   }
 
@@ -116,13 +119,54 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       }
     });
   }
+  onImageSelected(event: any): void {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      // Verificar que no excedamos el límite
+      const remainingSlots = this.maxImages - this.selectedImages.length;
+      if (remainingSlots <= 0) {
+        alert(`Solo puedes subir un máximo de ${this.maxImages} imágenes`);
+        return;
+      }
 
+      const filesToProcess = Math.min(remainingSlots, files.length);
+      
+      for (let i = 0; i < filesToProcess; i++) {
+        const file = files[i];
+        if (!file.type.match('image.*')) {
+          continue; // Solo procesar imágenes
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImages.push(e.target.result);
+          this.reportForm.patchValue({
+            images: [...this.selectedImages]
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+  removeImage(index: number): void {
+    this.selectedImages.splice(index, 1);
+    this.reportForm.patchValue({
+      images: [...this.selectedImages]
+    });
+  }
   onSubmit(): void {
     if (this.reportForm.invalid) return;
 
-    const { address, type, comment } = this.reportForm.value;
+    const { address, type, comment, images } = this.reportForm.value;
     const { lng, lat } = this.marker.getLngLat();
-    const payload = { address, type, comment, latitude: lat, longitude: lng };
+    const payload = { 
+      address, 
+      type, 
+      comment, 
+      latitude: lat, 
+      longitude: lng,
+      images: images || []
+    };
 
     console.log('Reporte enviado:', payload);
     // TODO: enviar payload al backend

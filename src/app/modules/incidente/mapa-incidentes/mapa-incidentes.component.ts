@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { IncidentesService } from './_service/incidentes.service';
 import { Subscription } from 'rxjs';
 import { SwalMessages } from '../../../shared/swal-messages';
+import { AuthService } from '../../usuario/login/_service/auth.service';  // <- Ajusta la ruta si es necesario
 
 @Component({
   selector: 'app-mapa-incidentes',
@@ -141,8 +142,10 @@ incidentes: Incidente[] = [
 
   constructor(
     private incidenteService: IncidentesService,
-    private router: Router,) { }
-
+    private router: Router,
+    private authService: AuthService
+  ) { }
+  
   @ViewChild('map') private mapContainer!: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
@@ -305,7 +308,20 @@ incidentes: Incidente[] = [
   getSeverityClass(nivelGravedad: string): string {
     return nivelGravedad.toLowerCase().replace(' ', '-');
   }
-    
+  reportarNuevoIncidente(): void {
+    if (!this.authService.isUserLoggedIn()) {
+      this.swal.errorMessage('Debes iniciar sesión para reportar un incidente');
+  
+      // Espera un momento antes de redirigir
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 2000);  // espera 2 segundos para que vea el mensaje
+      return;
+    }
+  
+    this.router.navigate(['/report']);
+  }
+  
   onEditar(incidente: Incidente): void {
     // Aquí la lógica para editar
     console.log('Editar', incidente);
