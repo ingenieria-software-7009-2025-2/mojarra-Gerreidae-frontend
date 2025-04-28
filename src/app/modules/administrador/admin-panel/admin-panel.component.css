@@ -242,3 +242,8 @@ body {
 .register-link a:hover {
   color: #00a8cc;
 }
+
+
+.botonAccion{
+  cursor: pointer;
+}
