@@ -1,107 +1,130 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-declare const google: any;
+// reportar-incidente.component.ts
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { Map, MapStyle, Marker, config } from '@maptiler/sdk';
+import '@maptiler/sdk/dist/maptiler-sdk.css';
 
 @Component({
-  selector: 'app-report-incident',
-  templateUrl: './report-incident.component.html',
-  styleUrls: ['./report-incident.component.scss']
+  selector: 'app-reportar-incidente',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './reportar-incidente.component.html',
+  styleUrls: ['./reportar-incidente.component.css']
 })
-export class ReportarIncidenteComponent implements OnInit {
+export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
-  map!: any;
-  marker!: any;
-  geocoder!: any;
 
   reportForm!: FormGroup;
+  map!: Map;
+  marker!: Marker;
+
+  private apiKey = 'E2rqKhxKFWqMTrQt5uw2';
+  private geocodeUrl = 'https://api.maptiler.com/geocoding/';
+  private subs: Subscription | null = null;
+
   incidentOptions = [
     'Accidente', 'Retraso', 'Obras', 'Policía',
     'Emergencia', 'Tráfico', 'Cierre', 'Otro'
   ];
-  selectedFile!: File|null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {}
 
-  ngOnInit() {
-    // 1) Inicializa el formulario
+  ngOnInit(): void {
+    config.apiKey = this.apiKey;
+    this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
+  ngOnDestroy(): void {
+    this.map?.remove();
+    this.subs?.unsubscribe();
+  }
+
+  private initForm(): void {
     this.reportForm = this.fb.group({
       address: ['', Validators.required],
       type: ['', Validators.required],
       comment: ['']
     });
-
-    // 2) Carga el mapa
-    this.initMap();
   }
 
-  initMap() {
-    const center = { lat: 19.432608, lng: -99.133209 };  // CDMX por defecto
-    this.map = new google.maps.Map(this.mapContainer.nativeElement, {
+  private initMap(): void {
+    const center: [number, number] = [-99.184903, 19.321251];
+    this.map = new Map({
+      container: this.mapContainer.nativeElement,
+      style: MapStyle.STREETS,
       center,
       zoom: 14
     });
-    this.geocoder = new google.maps.Geocoder();
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      draggable: true
-    });
 
-    // Click en el mapa → geocode latlng → llenar dirección y mover marcador
-    this.map.addListener('click', (e: any) => {
-      const latlng = e.latLng;
-      this.marker.setPosition(latlng);
-      this.geocoder.geocode({ location: latlng }, (results: any, status: any) => {
-        if (status === 'OK' && results[0]) {
-          this.reportForm.patchValue({ address: results[0].formatted_address });
-        }
-      });
-    });
+    this.marker = new Marker({ draggable: true })
+      .setLngLat(center)
+      .addTo(this.map);
 
-    // Al arrastrar el marcador → actualizar dirección
-    this.marker.addListener('dragend', () => {
-      const pos = this.marker.getPosition();
-      this.geocoder.geocode({ location: pos }, (results: any, status: any) => {
-        if (status === 'OK' && results[0]) {
-          this.reportForm.patchValue({ address: results[0].formatted_address });
-        }
-      });
+    this.map.on('click', e => this.onMapClick(e.lngLat.lng, e.lngLat.lat));
+    this.marker.on('dragend', () => {
+      const { lng, lat } = this.marker.getLngLat();
+      this.reverseGeocode(lng, lat);
     });
   }
 
-  geocodeAddress() {
+  private onMapClick(lng: number, lat: number): void {
+    this.marker.setLngLat([lng, lat]);
+    this.reverseGeocode(lng, lat);
+  }
+
+  geocodeAddress(): void {
     const address = this.reportForm.value.address;
     if (!address) return;
-    this.geocoder.geocode({ address }, (results: any, status: any) => {
-      if (status === 'OK' && results[0]) {
-        const loc = results[0].geometry.location;
-        this.map.setCenter(loc);
-        this.marker.setPosition(loc);
+
+    const url = `${this.geocodeUrl}${encodeURIComponent(address)}.json?limit=1&key=${this.apiKey}`;
+    this.subs = this.http.get<any>(url).subscribe(res => {
+      if (res.features?.length) {
+        const [lng, lat] = res.features[0].geometry.coordinates;
+        this.map.setCenter([lng, lat]);
+        this.marker.setLngLat([lng, lat]);
+      }
+    });
+  }
+  private reverseGeocode(lng: number, lat: number): void {
+    const url = `${this.geocodeUrl}${lng},${lat}.json?limit=1&key=${this.apiKey}`;
+    
+    // Cancelamos la suscripción anterior si existe
+    if (this.subs) {
+      this.subs.unsubscribe();
+    }
+  
+    this.subs = this.http.get<any>(url).subscribe({
+      next: (res) => {
+        if (res.features?.length) {
+          this.reportForm.patchValue({
+            address: res.features[0].place_name || res.features[0].properties.label
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error en geocodificación inversa:', err);
       }
     });
   }
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0] || null;
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.reportForm.invalid) return;
 
     const { address, type, comment } = this.reportForm.value;
-    const position = this.marker.getPosition();
-    const payload = new FormData();
-    payload.append('address', address);
-    payload.append('type', type);
-    payload.append('latitude', position.lat());
-    payload.append('longitude', position.lng());
-    payload.append('comment', comment);
-    if (this.selectedFile) {
-      payload.append('image', this.selectedFile);
-    }
+    const { lng, lat } = this.marker.getLngLat();
+    const payload = { address, type, comment, latitude: lat, longitude: lng };
 
-    // Aquí haz tu POST al backend:
-    // this.http.post('/api/incidentes', payload).subscribe(...)
-    console.log('Enviando reporte:', payload);
+    console.log('Reporte enviado:', payload);
+    // TODO: enviar payload al backend
   }
 }

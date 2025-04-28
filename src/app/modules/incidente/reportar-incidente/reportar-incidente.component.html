@@ -1,10 +1,11 @@
+<!-- reportar-accidente.component.html -->
 <div class="report-container">
     <!-- Mapa -->
     <div #mapContainer class="report-map"></div>
   
-    <!-- Formulario -->
+    <!-- Formulario de reporte -->
     <form [formGroup]="reportForm" class="report-form" (ngSubmit)="onSubmit()">
-      <h2>Reportar Incidente</h2>
+      <h2>Reportar Accidente</h2>
   
       <!-- Dirección -->
       <label for="address">Dirección</label>
@@ -13,19 +14,20 @@
         type="text"
         formControlName="address"
         (blur)="geocodeAddress()"
-        placeholder="Escribe una dirección o haz clic en el mapa"
+        placeholder="Escribe o haz clic en el mapa"
         required
       />
   
       <!-- Tipo de incidente -->
       <label for="type">Tipo de Incidente</label>
-      <select id="type" formControlName="type" required>
+      <select
+        id="type"
+        formControlName="type"
+        required
+      >
+        <option value="" disabled>Selecciona un tipo</option>
         <option *ngFor="let o of incidentOptions" [value]="o">{{ o }}</option>
       </select>
-  
-      <!-- Subir imagen -->
-      <label for="image">Imagen (opcional)</label>
-      <input id="image" type="file" (change)="onFileSelected($event)" />
   
       <!-- Comentario -->
       <label for="comment">Comentario</label>
@@ -36,8 +38,12 @@
         placeholder="Describe lo ocurrido..."
       ></textarea>
   
-      <!-- Submit -->
-      <button type="submit" [disabled]="reportForm.invalid" class="btn-submit">
+      <!-- Envío -->
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="reportForm.invalid"
+      >
         Enviar Reporte
       </button>
     </form>
