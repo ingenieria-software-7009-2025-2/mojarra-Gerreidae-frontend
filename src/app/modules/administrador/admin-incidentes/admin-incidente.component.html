@@ -1,0 +1,23 @@
+<div class="tabla-container">
+  <h2>Listado de Incidentes</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Descripción</th>
+      <th>Tipo</th>
+      <th>Estado</th>
+      <th>Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let incidente of incidentes">
+      <td>{{ incidente.descripcion }}</td>
+      <td>{{ incidente.tipo }}</td>
+      <td>{{ incidente.estado }}</td>
+      <td>{{ incidente.fecha }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
