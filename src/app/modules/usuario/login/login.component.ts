@@ -66,33 +66,40 @@ export class LoginComponent {
    * través del fomulario `loginForm`.
    */
   public onLogin() {
-    // obtenemos los valores del formulario
-    var loginFormValue = this.loginForm.value as { mail: string, password:string };
-
+    if (this.loginForm.invalid) {
+      this.swal.errorMessage('Por favor llena todos los campos correctamente.');
+      return;
+    }
+  
+    const loginFormValue = this.loginForm.value as { mail: string, password: string };
+  
     this.subscriptions.push(
-      this.authService.login(loginFormValue).subscribe ({
+      this.authService.login(loginFormValue).subscribe({
         next: (response) => {
           if (response.body && response.body.token) {
             this.authService.saveToken(response.body.token);
-            
-            this.swal.successMessage('Se inició sesión');
-            this.router.navigate(['/profile']); 
+  
+            this.swal.successMessage('Sesión iniciada correctamente.');
+            this.router.navigate(['/profile']);
           } else {
-            if (response.body === null) {
-              console.log('La API no devolvió cuerpo en la respuesta');
-              return;
-            }
-            console.log('El token devuelto no fue poblado');
-            return;
+            this.swal.errorMessage('No se recibió el token de autenticación.');
           }
         },
-        error: (e) => {
-          console.log(e.error.message);
+        error: (e: HttpErrorResponse) => {
+          console.error('Error en login:', e);
+  
+          if (e.status === 0) {
+            this.swal.errorMessage('No se pudo conectar al servidor. Intenta más tarde.');
+          } else if (e.status === 401) {
+            this.swal.errorMessage('Correo o contraseña incorrectos.');
+          } else {
+            this.swal.errorMessage('Ocurrió un error inesperado. Intenta de nuevo.');
+          }
         }
       })
-    )
+    );
   }
-
+  
   /**
    * Esta función es parte del ciclo de vida de los componentes de
    * angular, al igual que `ngOnInit`, pero `ngOnDestroy` 

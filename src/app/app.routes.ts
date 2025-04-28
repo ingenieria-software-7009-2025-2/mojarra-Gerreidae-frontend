@@ -1,17 +1,22 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './modules/usuario/login/login.component';
 import { RegisterComponent } from './modules/usuario/register/register.component';
-import { TemplateComponent } from './modules/usuario/template/template.component';
+import { TemplateComponent } from './modules/template/template.component';
 import { ProfileComponent } from './modules/usuario/profile/profile.component';
 import { authenticationGuard } from './core/auth/authentication.guard';
 import { MapaIncidentesComponent } from './modules/incidente/mapa-incidentes/mapa-incidentes.component';
 import { ReportarIncidenteComponent } from './modules/incidente/reportar-incidente/reportar-incidente.component';
+import { HomeComponent } from './modules/home/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: TemplateComponent,
     children: [
+      {
+        path: '',
+        component: HomeComponent 
+      },
       { 
         path: 'register', 
         component: RegisterComponent 

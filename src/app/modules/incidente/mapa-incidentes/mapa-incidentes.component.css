@@ -17,7 +17,6 @@
   padding: 10px;
 }
 
-/* Asegúrate que .map-wrapper sea el contenedor relativo */
 .map-wrapper {
   position: relative;
   flex: 3;
@@ -28,7 +27,7 @@
 .btn-report {
   position: absolute;
   top: 16px;
-  right: 16px;
+  left: 16px;
   z-index: 10;
 
   display: flex;
@@ -59,7 +58,7 @@
   width: 100%;
   height: 100%;
   border-radius: 18px;
-
+  
 }
 
 .map::after {
@@ -81,28 +80,29 @@
 .incidentes-sidebar {
   flex: 1;
   max-width: 400px;
-  background: #fff;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  background: transparent;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 18px;
-
+  padding: 10px;
 }
 
 /* Header */
 .sidebar-header {
   padding: 1rem;
-  background: #2c3e50;
-  color: #fff;
+  background: #bad9eb;
+  border-radius: 14px;
+  color: #0c0c0f;
+  margin-left: 0.75rem;
+  margin-right: 1.2rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .sidebar-header h2 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -110,14 +110,14 @@
 
 .sidebar-header h2 i {
   font-size: 1.4rem;
-  color: #fff;
+  color: #0c0c0f;
 }
 
 /* Lista scrollable */
 .incidentes-list {
   flex: 1;
   padding: 1rem;
-  background: #f9fafc;
+  background: transparent;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
@@ -126,7 +126,8 @@
   width: 8px;
 }
 .incidentes-list::-webkit-scrollbar-track {
-  background: #f1f1f1; border-radius: 4px;
+  background: transparent; border-radius: 4px;
+  
 }
 .incidentes-list::-webkit-scrollbar-thumb {
   border-radius: 4px;
@@ -139,26 +140,16 @@
    Tarjeta de incidente
 —————————————————————————————————— */
 .incidente-card {
-  background: #fff;
+  background: #eff8fd;
   border-radius: 8px;
   margin-bottom: 0.75rem;
   display: flex;
   padding: 1rem;
   position: relative;
   cursor: pointer;
-  border-left: 4px solid transparent;
-  transition: transform .2s, box-shadow .2s;
+
 }
 
-.incidente-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 100%;
-  background: #e9e9e9;
-  opacity: 0;
-  transition: opacity .2s;
-}
 
 .incidente-card:hover {
   transform: translateY(-2px);
@@ -170,14 +161,10 @@
 }
 
 .incidente-card.selected {
-  border-left-color: #3498db;
-  background: #ecf7ff;
+  background: #76e2f8;
 }
 
-.incidente-card.selected::before {
-  opacity: 1;
-  background: #3498db;
-}
+
 
 /* Icono con pulso */
 .incidente-icon {
