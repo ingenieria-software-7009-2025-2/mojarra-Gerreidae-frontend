@@ -22,3 +22,34 @@ th {
 tbody tr:hover {
   background-color: rgba(0, 216, 255, 0.2);
 }
+
+.filtros-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  width: 50%
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+.filtros-container label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.filtros-container select {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.filtros-container select:hover {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
