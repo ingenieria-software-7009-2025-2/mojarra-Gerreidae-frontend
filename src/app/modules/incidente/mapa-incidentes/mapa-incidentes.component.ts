@@ -137,7 +137,9 @@ incidentes: Incidente[] = [
     'Incendio': { icon: 'fire', color: '#FF7043' },
     'Manifestación': { icon: 'users', color: '#42A5F5' },
     'Servicios públicos': { icon: 'tint', color: '#26C6DA' },
-    'default': { icon: 'exclamation-circle', color: '#9E9E9E' }
+    'Bache': { icon: 'exclamation-circle', color: '#9E9E9E' },
+    'Luminaria Descompuesta': { icon: 'lightbulb', color: '#e3972d'},
+    'Obstáculo en vía pública': { icon: 'road-barrier', color: '#e34f2d'}
   };
 
   constructor(

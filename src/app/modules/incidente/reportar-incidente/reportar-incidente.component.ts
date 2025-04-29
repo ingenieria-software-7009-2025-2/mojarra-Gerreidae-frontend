@@ -36,8 +36,13 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   private geocodeUrl = 'https://api.maptiler.com/geocoding';
 
   incidentOptions = [
-    'Accidente', 'Retraso', 'Obras', 'Policía',
-    'Emergencia', 'Tráfico', 'Cierre', 'Otro'
+    'Accidente vial',
+    'Incendio',
+    'Manifestación',
+    'Servicios públicos',
+    'Bache',
+    'Luminaria Descompuesta',
+    'Obstáculo en vía pública'
   ];
 
   swal = new SwalMessages();
@@ -196,7 +201,7 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
     const payload = {
       descripcion: comment,
       tipo:        type,
-      estado:      'Pendiente',
+      estado:      'Reportado',
       latitud,
       longitud,
       imagenes:    images || []
