@@ -53,3 +53,40 @@ tbody tr:hover {
   border-color: #80bdff;
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
 }
+
+/* Botones */
+.btn-container {
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 12px 30px;
+  margin: 3px;
+  background: #00d8ff;
+  color: #001f3f;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #00aacc;
+  transform: scale(1.03);
+}
+
+button:disabled {
+  background: #888;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.botonEliminar{
+  background-color: rgb(196, 42, 42);
+}
