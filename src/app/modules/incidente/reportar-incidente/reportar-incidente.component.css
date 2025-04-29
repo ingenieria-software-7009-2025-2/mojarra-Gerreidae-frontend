@@ -1,114 +1,137 @@
+/* reportar-incidente.component.css */
+
+/* ——————————————————————————————————
+   Contenedor principal
+—————————————————————————————————— */
 .report-container {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  .report-map {
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .report-form {
-    flex: 1;
-    max-width: 450px;
-    padding: 2rem;
-    background: #ffffff;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    overflow-y: auto;
-  }
-  
-  .report-form h2 {
-    margin: 0 0 1rem;
-    color: #001f3f;
-  }
-  
-  .report-form label {
-    font-weight: 500;
-    color: #2c3e50;
-  }
-  
-  .report-form input[type="text"],
-  .report-form select,
-  .report-form textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccd1d1;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  
-  .report-form input[type="file"] {
-    font-size: 0.9rem;
-  }
-  
-  .btn-submit {
-    margin-top: auto;
-    padding: 0.75rem;
-    background: #0c7b93;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .btn-submit:disabled {
-    background: #aacccb;
-    cursor: not-allowed;
-  }
-  
-  .btn-submit:hover:not(:disabled) {
-    background: #095f70;
-  }
-  /* Estilos para el selector de imágenes y vista previa */
-.image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 10px 0;
-  }
-  
-  .image-preview {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .image-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .image-preview button {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: rgba(0,0,0,0.5);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .image-preview button:hover {
-    background: rgba(255,0,0,0.8);
-  }
-  
-  input[type="file"] {
-    margin-bottom: 10px;
-  }
+  display: flex;
+  height: 100vh;
+  padding: 10px;
+  gap: 10px;
+  background-color: #f5f7fa; /* light background */
+  box-sizing: border-box;
+}
+
+/* ——————————————————————————————————
+   Mapa
+—————————————————————————————————— */
+.report-map {
+  flex: 3;
+  position: relative;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.report-map::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 30%;
+  background: linear-gradient(0deg, rgba(100,181,246,0.4) 0%, transparent 100%);
+  animation: waterShine 8s infinite ease-in-out;
+}
+
+@keyframes waterShine {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 0.9; }
+}
+
+/* ——————————————————————————————————
+   Formulario de reporte
+—————————————————————————————————— */
+.report-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+/* Título */
+.report-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #095f70; /* darker accent */
+  text-align: center;
+}
+
+/* Etiquetas */
+.report-form label {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Campos de texto, select y textarea */
+.report-form input[type="text"],
+.report-form input[type="file"],
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-top: 0.25rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.report-form input:focus,
+.report-form select:focus,
+.report-form textarea:focus {
+  outline: none;
+  border-color: #0c7b93; /* primary accent */
+  box-shadow: 0 0 0 2px rgba(12,123,147,0.2);
+}
+
+/* Previsualización de imágenes */
+.preview-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.preview-images .thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.preview-images .thumb:hover {
+  transform: scale(1.05);
+}
+
+/* Botón de enviar */
+.btn-submit {
+  margin-top: 2rem;
+  padding: 0.75rem;
+  background-color: #0c7b93; /* primary */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #095f70; /* darker on hover */
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  background-color: #bbbbbb;
+  cursor: not-allowed;
+  transform: none;
+}

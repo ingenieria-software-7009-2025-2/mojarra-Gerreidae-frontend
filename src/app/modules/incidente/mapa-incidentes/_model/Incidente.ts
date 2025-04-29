@@ -7,5 +7,6 @@ export interface Incidente {
     longitud: number;
     latitud: number;
     fecha: Date;
+    images?: string[];    
   }
   

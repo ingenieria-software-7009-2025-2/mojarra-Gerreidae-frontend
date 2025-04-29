@@ -3,9 +3,9 @@
     <div #mapContainer class="report-map"></div>
   
     <!-- Formulario de reporte -->
-    <form [formGroup]="reportForm" class="report-form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-      <h2>Reportar Accidente</h2>
-  
+    <form [formGroup]="reportForm" class="report-form" (ngSubmit)="onSubmit()">
+      <h2>Reportar Incidente</h2>
+    
       <!-- Dirección -->
       <label for="address">Dirección</label>
       <input
@@ -16,18 +16,32 @@
         placeholder="Escribe o haz clic en el mapa"
         required
       />
-  
+    
+      <!-- Latitud -->
+      <label for="latitud">Latitud</label>
+      <input
+        id="latitud"
+        type="text"
+        formControlName="latitud"
+        readonly
+      />
+    
+      <!-- Longitud -->
+      <label for="longitud">Longitud</label>
+      <input
+        id="longitud"
+        type="text"
+        formControlName="longitud"
+        readonly
+      />
+    
       <!-- Tipo de incidente -->
       <label for="type">Tipo de Incidente</label>
-      <select
-        id="type"
-        formControlName="type"
-        required
-      >
+      <select id="type" formControlName="type" required>
         <option value="" disabled>Selecciona un tipo</option>
         <option *ngFor="let o of incidentOptions" [value]="o">{{ o }}</option>
       </select>
-  
+    
       <!-- Comentario -->
       <label for="comment">Comentario</label>
       <textarea
@@ -36,33 +50,29 @@
         rows="4"
         placeholder="Describe lo ocurrido..."
       ></textarea>
-
-      <!-- Selector de imágenes -->
-      <label for="images">Imágenes (Máximo {{maxImages}})</label>
+    
+      <!-- Imágenes -->
+      <label for="images">Imágenes (max {{ maxImages }})</label>
       <input
         id="images"
         type="file"
-        accept="image/*"
-        multiple
         (change)="onImageSelected($event)"
-        [disabled]="selectedImages.length >= maxImages"
+        multiple
+        accept="image/*"
       />
-
-      <!-- Vista previa de imágenes -->
-      <div class="image-preview-container" *ngIf="selectedImages.length > 0">
-        <div class="image-preview" *ngFor="let img of selectedImages; let i = index">
-          <img [src]="img" alt="Vista previa">
-          <button type="button" (click)="removeImage(i)">×</button>
-        </div>
+      <div class="preview-images">
+        <img
+          *ngFor="let img of reportForm.value.images; let i = index"
+          [src]="img"
+          (click)="removeImage(i)"
+          class="thumb"
+        />
       </div>
-  
-      <!-- Envío -->
-      <button
-        type="submit"
-        class="btn-submit"
-        [disabled]="reportForm.invalid"
-      >
+    
+      <!-- Enviar -->
+      <button type="submit" class="btn-submit" [disabled]="reportForm.invalid">
         Enviar Reporte
       </button>
     </form>
+    
   </div>
