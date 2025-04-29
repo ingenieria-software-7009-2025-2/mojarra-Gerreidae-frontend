@@ -8,6 +8,7 @@ import { MapaIncidentesComponent } from './modules/incidente/mapa-incidentes/map
 import { AdminPanelComponent } from './modules/administrador/admin-panel/admin-panel.component';
 import { AdminIncidenteComponent } from './modules/administrador/admin-incidentes/admin-incidente.component';
 
+
 export const routes: Routes = [
   {
     path: '',
@@ -34,6 +35,7 @@ export const routes: Routes = [
         path: 'adminincidente',
         component: AdminIncidenteComponent
       },
+
       { path: 'profile',
         component: ProfileComponent,
         canActivate: [authenticationGuard]

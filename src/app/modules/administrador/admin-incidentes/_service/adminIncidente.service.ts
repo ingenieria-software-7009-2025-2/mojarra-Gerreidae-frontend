@@ -10,6 +10,7 @@ export class AdminIncidenteService {
 
   constructor(private http: HttpClient) { }
 
+  // Lista de todos los incidentes
   getAllIncidentes(): Observable<any[]> {
       const token = localStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `${token}`);
@@ -17,4 +18,6 @@ export class AdminIncidenteService {
       return this.http.get<any[]>(`${mjs_api_uri}/v1/incident/getAll`, { headers });
 
     }
+
+  // Eliminar incidente
 }

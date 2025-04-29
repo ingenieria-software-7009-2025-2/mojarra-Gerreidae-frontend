@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminIncidenteService } from './_service/adminIncidente.service';
-import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common'
 
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterModule, CommonModule],
   selector: 'app-admin-incidente',
   templateUrl: './admin-incidente.component.html',
   styleUrls: ['./admin-incidente.component.css']
