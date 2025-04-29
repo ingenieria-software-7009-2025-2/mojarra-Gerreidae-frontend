@@ -1,29 +1,58 @@
-<div class="main-layout">
-    <!-- LISTA INCIDENTES -->
-    <div class="sidebar">
-      <ul class="item-list">
-        <li *ngFor="let incidente of incidentes" 
-            (click)="toggleIncidente(incidente)" 
-            [class.selected]="openIncidentes.has(incidente)">
-          
-          <strong>{{ incidente.tipo }}</strong> - {{ incidente.estado }}
+<div class="map-container">
+  <!-- Mapa -->
+  <div class="map-wrapper">
+    <div #map class="map"></div>
+    <button class="btn-report" (click)="reportarNuevoIncidente()">
+      <i class="fas fa-plus-circle"></i> Reportar Incidente
+    </button>
+    
+  </div>
 
-          <div *ngIf="openIncidentes.has(incidente)" class="detalle">
-            <p><strong>Descripción:</strong> {{ incidente.descripcion }}</p>
-            <p><strong>Fecha:</strong> {{ incidente.fecha | date:'short' }}</p>
-            <p><strong>Coordenadas:</strong> {{ incidente.lat }}, {{ incidente.lng }}</p>
+  <!-- Lista de incidentes -->
+  <div class="incidentes-sidebar">
+    <div class="sidebar-header">
+      <h2><i class="fas fa-traffic-light"></i> Incidentes Reportados</h2>
+    </div>
 
-            <div class="btn-container">
-              <button type="button" (click)="onEditar(incidente)">Editar</button>
-              <button type="button" (click)="onEliminar(incidente)">Eliminar</button>
-            </div>
+    <div class="incidentes-list">
+      <div *ngFor="let incidente of filteredIncidentes" 
+           class="incidente-card" 
+           [class.selected]="selectedIncidente?.id_incidente === incidente.id_incidente"
+           (click)="onIncidenteClick(incidente)">
+        
+        <div class="incidente-icon" 
+             [style.background-color]="getIncidenteColor(incidente.tipo)">
+          <i class="fas fa-{{ getIncidenteIcon(incidente.tipo) }}"></i>
+        </div>
+
+        <div class="incidente-content">
+          <div class="incidente-header">
+            <h4 class="incidente-tipo">{{ incidente.tipo }}</h4>
+            <span class="incidente-time">{{ incidente.fecha | date:'shortTime' }}</span>
           </div>
-        </li>
-      </ul>
+
+          <p class="incidente-desc">{{ incidente.descripcion }}</p>
+
+          <div class="incidente-footer">
+            <span class="status-badge {{ incidente.estado.toLowerCase().replace(' ', '-') }}">
+              {{ incidente.estado }}
+            </span>
+          </div>
+        </div>
+
+        <div class="incidente-actions" *ngIf="openIncidentes.has(incidente)">
+          <button class="btn-action" (click)="onEditar(incidente); $event.stopPropagation()">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-action" (click)="onEliminar(incidente); $event.stopPropagation()">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <button class="toggle-btn" (click)="toggleIncidente(incidente, $event)">
+          <i class="fas fa-chevron-{{ openIncidentes.has(incidente) ? 'up' : 'down' }}"></i>
+        </button>
+      </div>
     </div>
-  
-    <!-- MAPA -->
-    <div class="map-container">
-      <div class="map" #map></div>
-    </div>
+  </div>
 </div>

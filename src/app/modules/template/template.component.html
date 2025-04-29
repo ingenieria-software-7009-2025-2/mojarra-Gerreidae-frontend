@@ -1,0 +1,70 @@
+<header class="header">
+  <div class="header-container">
+    <a class="logo" routerLink="/">
+      <img src="assets/logo.png" alt="MojarraDrive" class="logo-img">
+    </a>
+    
+    <nav class="nav-menu">
+      <!-- Si NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn; else loggedIn">
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Iniciar Sesión</a>
+        <a routerLink="/register" routerLinkActive="active" class="nav-link">Registrarse</a>
+      </ng-container>
+
+      <!-- Si SÍ está logueado -->
+      <ng-template #loggedIn>
+        <!-- Si NO es un administrador -->
+        <ng-container *ngIf="!isUserAdmin; else isAdmin">
+          <a routerLink="/profile" routerLinkActive="active" class="nav-link">Perfil</a>
+          <a (click)="cerrarSesion()" class="nav-link">Cerrar Sesión</a>
+        </ng-container>
+
+        <!-- Si SÍ es un administrador -->
+        <ng-template #isAdmin>
+          <a routerLink="/adminuser" routerLinkActive="active" class="nav-link">Administración de Usuarios</a>
+          <a routerLink="/adminincidente" routerLinkActive="active" class="nav-link">Administración de Incidentes</a>
+          <a routerLink="/profile" routerLinkActive="active" class="nav-link">Perfil</a>
+          <a (click)="cerrarSesion()" class="nav-link">Cerrar Sesión</a>
+        </ng-template>
+      </ng-template>
+    </nav>
+  </div>
+</header>
+
+<div class="content-wrapper">
+  <div class="content-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <a class="footer-logo" routerLink="/">
+        <img src="assets/logo.png" alt="MojarraDrive" class="logo-img">
+      </a>
+    </div>
+
+    <div class="footer-links">
+      <div class="link-group">
+        <h4>Navegación</h4>
+        <a routerLink="/about">Sobre Nosotros</a>
+        <a routerLink="/map">Mapa</a>
+        <a routerLink="/incidents">Incidentes</a>
+      </div>
+    </div>
+
+    <div class="footer-social">
+      <h4>Conecta con nosotros</h4>
+      <div class="social-icons">
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 MojarraDrive. Todos los derechos reservados.</p>
+  </div>
+</footer>

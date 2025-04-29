@@ -1,35 +1,58 @@
+
 <div class="login-container">
   <h1 class="app-name">Administración</h1>
+=======
+<!-- app.component.html -->
+<div class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>ApellidoP</th>
+        <th>ApellidoM</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.apellidoP }}</td>
+        <td>{{ user.apellidoM }}</td>
+        <td>{{ user.mail }}</td>
+        <td>
+          <button class="botonAccion" (click)="selectUserToEdit(user)">Editar</button>
+          <button (click)="deleteUser(user)">Eliminar</button>
+        </tr>
+    </tbody>
+  </table>
+</div>
 
-  <div class="ocean">
-    <div class="bubbles">
-      <span style="--i:1;"></span>
-      <span style="--i:3;"></span>
-      <span style="--i:6;"></span>
-      <span style="--i:9;"></span>
-      <span style="--i:12;"></span>
-      <span style="--i:15;"></span>
-      <span style="--i:18;"></span>
-      <span style="--i:21;"></span>
-      <span style="--i:24;"></span>
-      <span style="--i:27;"></span>
+<div class="form-div">
+  <form class="form" [formGroup]="formUserToEdit" (ngSubmit)="updateUser()">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" formControlName="nombre" name="nombre" required>
     </div>
 
-    <!-- pecezuelos -->
-    <div class="fish car-fish-1"></div>
-    <div class="fish car-fish-2"></div>
-    <div class="fish car-fish-3"></div>
-  </div>
+    <div class="form-group">
+      <label for="apellidoP">Apellido Paterno:</label>
+      <input type="text" id="apellidoP" formControlName="apellidoP" name="apellidoP" required>
+    </div>
 
-  <!-- Contenedor del formulario -->
-  <!-- <div class="bubble-login text-center p-4">
-    <h2 class="login-title">Inicia Sesión</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
-      <input type="text" class="form-control" placeholder="Correo" formControlName="mail" required>
-      <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" required>
-      <button type="submit" class="btn btn-primary">→</button>
-    </form>
-  </div> -->
+    <div class="form-group">
+      <label for="apellidoM">Apellido Materno:</label>
+      <input type="text" id="apellidoM" formControlName="apellidoM" name="apellidoM" required>
+    </div>
 
+    <div class="form-group">
+      <label for="mail">Correo:</label>
+      <input type="email" id="mail" formControlName="mail" name="mail" required>
+    </div>
+
+    <button>Actualizar</button>
+  </form>
 </div>
 
