@@ -123,6 +123,7 @@ export class AuthService {
    * @returns boolean indicando si el usuario es Administrador
    */
   public isUserAdmin(): boolean {
+    this.loadIsAdmin();
     return this.esAdministrador == "1";
   }
 

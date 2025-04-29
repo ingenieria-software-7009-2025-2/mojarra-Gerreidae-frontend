@@ -78,7 +78,7 @@ export class LoginComponent {
         next: (response) => {
           if (response.body && response.body.token) {
             this.authService.saveToken(response.body.token);
-  
+            this.authService.saveIsAdmin(response.body.esAdministrador.toString());
             this.swal.successMessage('Sesión iniciada correctamente.');
             this.router.navigate(['/profile']);
           } else {

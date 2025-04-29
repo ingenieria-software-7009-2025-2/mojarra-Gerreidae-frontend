@@ -33,7 +33,7 @@ export const routes: Routes = [
         component: LoginComponent
       },
       {
-        path: 'admin-panel',
+        path: 'adminuser',
         component: AdminPanelComponent,
         canActivate: [authenticationGuard]
       },
