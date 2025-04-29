@@ -22,7 +22,7 @@
           <button (click)="selectUserToEdit(user)">Editar</button>
           <button class="botonEliminar" (click)="deleteUser(user)">Eliminar</button>
 
-          <ng-container *ngIf="!mostrarFormulario">
+          <ng-container *ngIf="mostrarFormulario">
             <form [formGroup]="formUserToEdit" (ngSubmit)="updateUser()">
               <div class="form-columns">
                 <div class="form-col">
