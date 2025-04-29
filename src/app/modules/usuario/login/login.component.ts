@@ -65,35 +65,41 @@ export class LoginComponent {
    * Función para realizar el login del usuario a
    * través del fomulario `loginForm`.
    */
-   public onLogin() {
-     var loginFormValue = this.loginForm.value as { mail: string, password: string };
-
-     this.subscriptions.push(
-       this.authService.login(loginFormValue).subscribe({
-         next: (response) => {
-           if (response.body && response.body.token) {
-             this.authService.saveToken(response.body.token);
-             this.authService.saveIsAdmin(response.body.esAdministrador.toString());
-
-             this.swal.successMessage('Se inició sesión');
-
-             if (response.body.esAdministrador) {
-               this.router.navigate(['/admin-panel']); // Admin
-             } else {
-               this.router.navigate(['/profile']); // Usuario normal
-             }
-           } else {
-             console.log('El token devuelto no fue poblado o respuesta vacía');
-           }
-         },
-         error: (e) => {
-           console.log(e.error.message);
-         }
-       })
-     );
-   }
-
-
+  public onLogin() {
+    if (this.loginForm.invalid) {
+      this.swal.errorMessage('Por favor llena todos los campos correctamente.');
+      return;
+    }
+  
+    const loginFormValue = this.loginForm.value as { mail: string, password: string };
+  
+    this.subscriptions.push(
+      this.authService.login(loginFormValue).subscribe({
+        next: (response) => {
+          if (response.body && response.body.token) {
+            this.authService.saveToken(response.body.token);
+  
+            this.swal.successMessage('Sesión iniciada correctamente.');
+            this.router.navigate(['/profile']);
+          } else {
+            this.swal.errorMessage('No se recibió el token de autenticación.');
+          }
+        },
+        error: (e: HttpErrorResponse) => {
+          console.error('Error en login:', e);
+  
+          if (e.status === 0) {
+            this.swal.errorMessage('No se pudo conectar al servidor. Intenta más tarde.');
+          } else if (e.status === 401) {
+            this.swal.errorMessage('Correo o contraseña incorrectos.');
+          } else {
+            this.swal.errorMessage('Ocurrió un error inesperado. Intenta de nuevo.');
+          }
+        }
+      })
+    );
+  }
+  
   /**
    * Esta función es parte del ciclo de vida de los componentes de
    * angular, al igual que `ngOnInit`, pero `ngOnDestroy`
