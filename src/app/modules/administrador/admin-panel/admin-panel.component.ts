@@ -3,6 +3,7 @@ import { User } from './_model/User.dto';
 import { UsuarioServiceService } from './_service/usuario-service.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SwalMessages } from '../../../shared/swal-messages';
 
 @Component({
   selector: 'app-admin-panel',
@@ -12,14 +13,15 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 })
 export class AdminPanelComponent {
 
-  users: User[]=[];
-
+  users: User[] = [];
+  swal: SwalMessages = new SwalMessages(); // swal messages
   formUserToEdit: FormGroup = new FormGroup({});;
+  mostrarFormulario = false;
 
   constructor(private usuarioService:UsuarioServiceService){}
 
   ngOnInit():void{
-
+    this.mostrarFormulario = false;
     this.usuarioService.obtenerTodosLosUsuarios().subscribe(data => {
       this.users=data
     });
@@ -48,6 +50,8 @@ export class AdminPanelComponent {
       token: user.token,
       esAdministrador: user.esAdministrador
     });
+
+    this.mostrarFormulario = !this.mostrarFormulario;
   }
 
 
@@ -69,10 +73,10 @@ export class AdminPanelComponent {
       this.usuarioService.actualizarUSuario(user).subscribe(data => {
         this.formUserToEdit.reset();
         this.ngOnInit();
-        alert("Usuario actualizado correctamente");
+        this.swal.successMessage("Usuario actualizado correctamente");
       }, error => {
         console.error("Error al actualizar el usuario", error);
-        alert("Error al actualizar el usuario");
+        this.swal.errorMessage("Error al actualizar el usuario");
       });
 
     }else{
@@ -82,11 +86,11 @@ export class AdminPanelComponent {
 
   deleteUser(user: User): void {
     this.usuarioService.eliminarUsuario(user).subscribe(data => {
-      alert(data);
+      this.swal.successMessage(data);
       this.ngOnInit();
     }, error => {
       console.error("Error al eliminar el usuario", error);
-      alert("Error al eliminar el usuario");
+      this.swal.errorMessage("Error al eliminar el usuario");
     });
   }
 
