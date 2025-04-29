@@ -8,6 +8,7 @@ import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { mjs_api_uri } from '../../../shared/mjs-api-uri';
 import { SwalMessages } from '../../../shared/swal-messages';
+import { AuthService } from '../../usuario/login/_service/auth.service';
 
 @Component({
   selector: 'app-reportar-incidente',
@@ -45,7 +46,8 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
     private fb: FormBuilder,
     private http: HttpClient,
     private jsonp: JsonpClientBackend,  
-    private zone: NgZone
+    private zone: NgZone,
+    private authService: AuthService
   ) {}
   
 
@@ -184,13 +186,10 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
 
     // Extrae el objeto usuario completo guardado en login
     const usuarioStr = localStorage.getItem('usuario');
-    if (!usuarioStr) {
+    if (!this.authService.isUserLoggedIn()) {
       this.swal.errorMessage('Debes iniciar sesión primero.');
       return;
     }
-    const usuario = JSON.parse(usuarioStr);
-    // token y UserID ya no se mandan en el body, el token va en header
-    const token = usuario.token;
 
     // Construye el payload EXACTO que tu controlador espera
     const { type, comment, latitud, longitud, images } = this.reportForm.value;
@@ -203,14 +202,11 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       imagenes:    images || []
     };
 
-    // Prepara headers con el token
-    const headers = new HttpHeaders().set('Authorization', token);
-
     this.http
       .post<string>(
         `${mjs_api_uri}/v1/incident`,
         payload,
-        { headers, responseType: 'text' as 'json' }
+        { responseType: 'text' as 'json' }
       )
       .subscribe({
         next: () => {
