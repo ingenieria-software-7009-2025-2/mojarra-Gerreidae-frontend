@@ -1,18 +1,22 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Map, MapStyle, Marker, config } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
-
+import { HttpClientJsonpModule } from '@angular/common/http';
 import { mjs_api_uri } from '../../../shared/mjs-api-uri';
 import { SwalMessages } from '../../../shared/swal-messages';
 
 @Component({
   selector: 'app-reportar-incidente',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule,
+    HttpClientJsonpModule 
+  ],
   templateUrl: './reportar-incidente.component.html',
   styleUrls: ['./reportar-incidente.component.css']
 })
@@ -28,7 +32,7 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   maxImages = 3;
 
   private apiKey = 'E2rqKhxKFWqMTrQt5uw2';
-  private geocodeUrl = 'https://api.maptiler.com/geocoding/';
+  private geocodeUrl = 'https://api.maptiler.com/geocoding';
 
   incidentOptions = [
     'Accidente', 'Retraso', 'Obras', 'Policía',
@@ -40,8 +44,10 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private jsonp: JsonpClientBackend,  
     private zone: NgZone
   ) {}
+  
 
   ngOnInit(): void {
     config.apiKey = this.apiKey;
@@ -118,16 +124,33 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   }
 
   private reverseGeocode(lng: number, lat: number): void {
-    const url = `${this.geocodeUrl}${lng},${lat}.json?limit=1&key=${this.apiKey}`;
-    this.subs = this.http.get<any>(url).subscribe(res => {
-      if (res.features?.length) {
-        const props = res.features[0].properties;
-        const label = props.label ?? props.name ?? '';
-        this.zone.run(() => this.reportForm.patchValue({ address: label }));
+    const url = 
+      `${this.geocodeUrl}/${lng},${lat}.json` +
+      `?key=${this.apiKey}&limit=1`;
+  
+    this.subs = this.http.get<any>(url).subscribe({
+      next: res => {
+        // MapTiler devuelve un objeto GeoJSON con features[]
+        if (res.features?.length) {
+          const feat     = res.features[0];
+          const address  = feat.place_name;  // la dirección legible
+          console.log('reverseGeocode success', feat);
+  
+          this.zone.run(() => {
+            this.reportForm.patchValue({ address });
+          });
+        }
+      },
+      error: err => {
+        console.error('Error en reverseGeocode:', err);
+        this.zone.run(() => {
+          this.swal.errorMessage('No se pudo obtener la dirección.');
+        });
       }
     });
   }
-
+  
+  
   onImageSelected(event: any): void {
     const files: FileList = event.target.files;
     const remaining = this.maxImages - (this.reportForm.value.images?.length || 0);
