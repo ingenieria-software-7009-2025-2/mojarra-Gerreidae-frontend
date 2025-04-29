@@ -20,4 +20,10 @@ export class AdminIncidenteService {
     }
 
   // Eliminar incidente
+  deleteIncidente(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
+
+    return this.http.delete<any>(`${mjs_api_uri}/v1/incident/${id}`, { headers });
+  }
 }

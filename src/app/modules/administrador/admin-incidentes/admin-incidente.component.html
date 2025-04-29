@@ -1,5 +1,5 @@
 <div class="tabla-container">
-  <h2>Listado de Incidentes</h2>
+  <h2 style="text-align: center">Incidentes</h2>
   <table>
     <thead>
     <tr>
@@ -7,10 +7,8 @@
       <th>Tipo</th>
       <th>Estado</th>
       <th>Fecha</th>
+      <th>Eliminar</th>
     </tr>
-
-
-
     </thead>
     <tbody>
     <tr *ngFor="let incidente of incidentes">
@@ -18,9 +16,13 @@
       <td>{{ incidente.tipo }}</td>
       <td>{{ incidente.estado }}</td>
       <td>{{ incidente.fecha }}</td>
+      <td>
+        <button (click)="onDeleteIncidente(incidente.idIncidente)">Eliminar</button>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
+
 
 
