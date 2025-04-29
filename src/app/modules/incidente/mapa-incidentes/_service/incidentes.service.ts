@@ -12,6 +12,6 @@ export class IncidentesService {
   constructor(private http: HttpClient) { }
 
   public getIncidentes(): Observable<HttpResponse<Incidente[]>>{
-    return this.http.get<Incidente[]>(`${mjs_api_uri}/v1/incidentes`, { observe: 'response' });
+    return this.http.get<Incidente[]>(`${mjs_api_uri}/v1/incident/getAll`, { observe: 'response' });
   }
 }

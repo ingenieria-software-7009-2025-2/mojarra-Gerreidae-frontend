@@ -167,8 +167,20 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       if (!file.type.startsWith('image/')) continue;
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const imgs = [...(this.reportForm.value.images || []), e.target.result];
-        this.zone.run(() => this.reportForm.patchValue({ images: imgs }));
+        const fullDataUrl: string = e.target.result;
+        const base64Data = fullDataUrl.replace(/^data:image\/[a-zA-Z]+;base64,/, '');
+      
+        const images = this.reportForm.value.images || [];
+      
+        // Guardar un objeto que tenga ambas partes
+        const newImage = {
+          preview: fullDataUrl,   // Para mostrar en <img src="...">
+          data: base64Data        // Para enviar al backend
+        };
+      
+        const updatedImages = [...images, newImage];
+      
+        this.zone.run(() => this.reportForm.patchValue({ images: updatedImages }));
       };
       reader.readAsDataURL(file);
     }
@@ -204,7 +216,7 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       estado:      'Reportado',
       latitud,
       longitud,
-      imagenes:    images || []
+      imagenes:    (images || []).map((img: any) => img.data) // Solo base64
     };
 
     this.http

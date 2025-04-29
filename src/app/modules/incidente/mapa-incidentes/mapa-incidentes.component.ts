@@ -201,7 +201,7 @@ incidentes: Incidente[] = [
     
     this.filteredIncidentes.forEach(incidente => {
       if (this.map && incidente.latitud && incidente.longitud) {
-        const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['default'];
+        const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['Bache'];
         
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
@@ -250,7 +250,7 @@ incidentes: Incidente[] = [
     this.clearMarkers();
     
     if (this.map && incidente.latitud && incidente.longitud) {
-      const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['default'];
+      const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['Bache'];
       
       const markerElement = document.createElement('div');
       markerElement.className = 'custom-marker selected';
@@ -300,11 +300,11 @@ incidentes: Incidente[] = [
   }
   
   getIncidenteIcon(tipo: string): string {
-    return this.iconMap[tipo]?.icon || this.iconMap['default'].icon;
+    return this.iconMap[tipo]?.icon || this.iconMap['Bache'].icon;
   }
 
   getIncidenteColor(tipo: string): string {
-    return this.iconMap[tipo]?.color || this.iconMap['default'].color;
+    return this.iconMap[tipo]?.color || this.iconMap['Bache'].color;
   }
 
   getSeverityClass(nivelGravedad: string): string {

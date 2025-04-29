@@ -63,7 +63,7 @@
       <div class="preview-images">
         <img
           *ngFor="let img of reportForm.value.images; let i = index"
-          [src]="img"
+          [src]="img.preview"
           (click)="removeImage(i)"
           class="thumb"
         />
