@@ -1,5 +1,19 @@
+<div class="filtros-container">
+  <label>Tipo:</label>
+  <select [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
+    <option value="">Todos</option>
+    <option *ngFor="let tipo of tiposDisponibles" [value]="tipo">{{ tipo }}</option>
+  </select>
+
+  <label>Estado:</label>
+  <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
+    <option value="">Todos</option>
+    <option *ngFor="let estado of estadosDisponibles" [value]="estado">{{ estado }}</option>
+  </select>
+</div>
+
 <div class="tabla-container">
-  <h2>Listado de Incidentes</h2>
+  <h2>Incidentes</h2>
   <table>
     <thead>
     <tr>
@@ -7,20 +21,23 @@
       <th>Tipo</th>
       <th>Estado</th>
       <th>Fecha</th>
+      <th>Acciones</th>
     </tr>
-
-
-
     </thead>
     <tbody>
-    <tr *ngFor="let incidente of incidentes">
+    <tr *ngFor="let incidente of incidentesFiltrados">
       <td>{{ incidente.descripcion }}</td>
       <td>{{ incidente.tipo }}</td>
       <td>{{ incidente.estado }}</td>
       <td>{{ incidente.fecha }}</td>
+      <td>
+        <button (click)="onDeleteIncidente(incidente.idIncidente)">Eliminar</button>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
+
+
 
 
