@@ -3,7 +3,7 @@ import { mjs_api_uri } from '../../../../shared/mjs-api-uri';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../_model/User.dto';
-
+  
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +23,6 @@ export class UsuarioServiceService {
   }
 
   eliminarUsuario(user: User): Observable<string>{
-    return this.httpClient.delete<string>(`${mjs_api_uri}/v1/users/${user.idUsuario}`);
+    return this.httpClient.delete(`${mjs_api_uri}/v1/users/${user.idUsuario}`, { responseType: 'text' });
   }
 }

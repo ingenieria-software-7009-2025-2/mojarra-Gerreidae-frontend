@@ -82,7 +82,7 @@ export class AdminPanelComponent {
 
   deleteUser(user: User): void {
     this.usuarioService.eliminarUsuario(user).subscribe(data => {
-      alert("data");
+      alert(data);
       this.ngOnInit();
     }, error => {
       console.error("Error al eliminar el usuario", error);
