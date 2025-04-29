@@ -1,17 +1,23 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Incidente } from '../_model/Incidente';
 import { mjs_api_uri } from '../../../../shared/mjs-api-uri';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IncidentesService {
+export class AdminIncidenteService {
 
   constructor(private http: HttpClient) { }
 
-  public getIncidentes(): Observable<HttpResponse<Incidente[]>>{
-    return this.http.get<Incidente[]>(`${mjs_api_uri}/v1/incidentes`, { observe: 'response' });
-  }
+  // Lista de todos los incidentes
+  getAllIncidentes(): Observable<any[]> {
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders().set('Authorization', `${token}`);
+
+      return this.http.get<any[]>(`${mjs_api_uri}/v1/incident/getAll`, { headers });
+
+    }
+
+  // Eliminar incidente
 }

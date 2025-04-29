@@ -6,7 +6,8 @@ import { ProfileComponent } from './modules/usuario/profile/profile.component';
 import { authenticationGuard } from './core/auth/authentication.guard';
 import { MapaIncidentesComponent } from './modules/incidente/mapa-incidentes/mapa-incidentes.component';
 import { AdminPanelComponent } from './modules/administrador/admin-panel/admin-panel.component';
-import { AdminIncidentesComponent } from './modules/administrador/admin-incidentes/admin-incidentes.component';
+import { AdminIncidenteComponent } from './modules/administrador/admin-incidentes/admin-incidente.component';
+
 
 export const routes: Routes = [
   {
@@ -32,8 +33,9 @@ export const routes: Routes = [
       },
       {
         path: 'adminincidente',
-        component: AdminIncidentesComponent
+        component: AdminIncidenteComponent
       },
+
       { path: 'profile',
         component: ProfileComponent,
         canActivate: [authenticationGuard]
