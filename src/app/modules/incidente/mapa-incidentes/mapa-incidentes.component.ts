@@ -9,6 +9,7 @@ import { IncidentesService } from './_service/incidentes.service';
 import { Subscription } from 'rxjs';
 import { SwalMessages } from '../../../shared/swal-messages';
 import { AuthService } from '../../usuario/login/_service/auth.service';  // <- Ajusta la ruta si es necesario
+import { HashResponse } from './_model/HashResponse';
 
 @Component({
   selector: 'app-mapa-incidentes',
@@ -22,114 +23,116 @@ export class MapaIncidentesComponent implements OnInit, AfterViewInit, OnDestroy
   private markers: Marker[] = []; 
   swal: SwalMessages = new SwalMessages();
 
-incidentes: Incidente[] = [
-  { 
-    id_incidente: 1,
-    id_usuario: 1,
-    descripcion: "Colisión entre dos vehículos en Av. Insurgentes Sur",
-    tipo: "Accidente vial",
-    estado: "En proceso",
-    longitud: -99.168869,
-    latitud: 19.346597,
-    fecha: new Date('2025-04-26')
-  },
-  { 
-    id_incidente: 2,
-    id_usuario: 2,
-    descripcion: "Carambola de tres autos en Periférico Sur",
-    tipo: "Accidente vial",
-    estado: "Activo",
-    longitud: -99.227292,
-    latitud: 19.300402,
-    fecha: new Date('2025-04-25')
-  },
-  { 
-    id_incidente: 3,
-    id_usuario: 3,
-    descripcion: "Accidente de motocicleta en Reforma",
-    tipo: "Accidente vial",
-    estado: "Pendiente",
-    longitud: -99.174839,
-    latitud: 19.435144,
-    fecha: new Date('2025-04-24')
-  },
-  { 
-    id_incidente: 4,
-    id_usuario: 4,
-    descripcion: "Choque contra poste en Tlalpan",
-    tipo: "Accidente vial",
-    estado: "Controlado",
-    longitud: -99.144613,
-    latitud: 19.283838,
-    fecha: new Date('2025-04-23')
-  },
-  { 
-    id_incidente: 5,
-    id_usuario: 5,
-    descripcion: "Vehículo volcado en Viaducto Tlalpan",
-    tipo: "Accidente vial",
-    estado: "Resuelto",
-    longitud: -99.159328,
-    latitud: 19.268089,
-    fecha: new Date('2025-04-22')
-  },
-  { 
-    id_incidente: 6,
-    id_usuario: 6,
-    descripcion: "Accidente múltiple cerca del Zócalo",
-    tipo: "Accidente vial",
-    estado: "En proceso",
-    longitud: -99.133208,
-    latitud: 19.432607,
-    fecha: new Date('2025-04-21')
-  },
-  { 
-    id_incidente: 7,
-    id_usuario: 7,
-    descripcion: "Frenado brusco provoca choque en División del Norte",
-    tipo: "Accidente vial",
-    estado: "Activo",
-    longitud: -99.162163,
-    latitud: 19.361428,
-    fecha: new Date('2025-04-20')
-  },
-  { 
-    id_incidente: 8,
-    id_usuario: 8,
-    descripcion: "Camión de carga accidentado en Polanco",
-    tipo: "Accidente vial",
-    estado: "Controlado",
-    longitud: -99.201416,
-    latitud: 19.432608,
-    fecha: new Date('2025-04-19')
-  },
-  { 
-    id_incidente: 9,
-    id_usuario: 9,
-    descripcion: "Taxi impactado en Calzada de Tlalpan",
-    tipo: "Accidente vial",
-    estado: "Pendiente",
-    longitud: -99.142344,
-    latitud: 19.379123,
-    fecha: new Date('2025-04-18')
-  },
-  { 
-    id_incidente: 10,
-    id_usuario: 10,
-    descripcion: "Atropellamiento en Av. Universidad",
-    tipo: "Accidente vial",
-    estado: "En proceso",
-    longitud: -99.187325,
-    latitud: 19.345678,
-    fecha: new Date('2025-04-17')
-  }
-];
+  incidentes: Incidente[] = [
+    { 
+      id_incidente: 1,
+      id_usuario: 1,
+      descripcion: "Colisión entre dos vehículos en Av. Insurgentes Sur",
+      tipo: "Accidente vial",
+      estado: "En proceso",
+      longitud: -99.168869,
+      latitud: 19.346597,
+      fecha: new Date('2025-04-26')
+    },
+    { 
+      id_incidente: 2,
+      id_usuario: 2,
+      descripcion: "Carambola de tres autos en Periférico Sur",
+      tipo: "Accidente vial",
+      estado: "Activo",
+      longitud: -99.227292,
+      latitud: 19.300402,
+      fecha: new Date('2025-04-25')
+    },
+    { 
+      id_incidente: 3,
+      id_usuario: 3,
+      descripcion: "Accidente de motocicleta en Reforma",
+      tipo: "Accidente vial",
+      estado: "Pendiente",
+      longitud: -99.174839,
+      latitud: 19.435144,
+      fecha: new Date('2025-04-24')
+    },
+    { 
+      id_incidente: 4,
+      id_usuario: 4,
+      descripcion: "Choque contra poste en Tlalpan",
+      tipo: "Accidente vial",
+      estado: "Controlado",
+      longitud: -99.144613,
+      latitud: 19.283838,
+      fecha: new Date('2025-04-23')
+    },
+    { 
+      id_incidente: 5,
+      id_usuario: 5,
+      descripcion: "Vehículo volcado en Viaducto Tlalpan",
+      tipo: "Accidente vial",
+      estado: "Resuelto",
+      longitud: -99.159328,
+      latitud: 19.268089,
+      fecha: new Date('2025-04-22')
+    },
+    { 
+      id_incidente: 6,
+      id_usuario: 6,
+      descripcion: "Accidente múltiple cerca del Zócalo",
+      tipo: "Accidente vial",
+      estado: "En proceso",
+      longitud: -99.133208,
+      latitud: 19.432607,
+      fecha: new Date('2025-04-21')
+    },
+    { 
+      id_incidente: 7,
+      id_usuario: 7,
+      descripcion: "Frenado brusco provoca choque en División del Norte",
+      tipo: "Accidente vial",
+      estado: "Activo",
+      longitud: -99.162163,
+      latitud: 19.361428,
+      fecha: new Date('2025-04-20')
+    },
+    { 
+      id_incidente: 8,
+      id_usuario: 8,
+      descripcion: "Camión de carga accidentado en Polanco",
+      tipo: "Accidente vial",
+      estado: "Controlado",
+      longitud: -99.201416,
+      latitud: 19.432608,
+      fecha: new Date('2025-04-19')
+    },
+    { 
+      id_incidente: 9,
+      id_usuario: 9,
+      descripcion: "Taxi impactado en Calzada de Tlalpan",
+      tipo: "Accidente vial",
+      estado: "Pendiente",
+      longitud: -99.142344,
+      latitud: 19.379123,
+      fecha: new Date('2025-04-18')
+    },
+    { 
+      id_incidente: 10,
+      id_usuario: 10,
+      descripcion: "Atropellamiento en Av. Universidad",
+      tipo: "Accidente vial",
+      estado: "En proceso",
+      longitud: -99.187325,
+      latitud: 19.345678,
+      fecha: new Date('2025-04-17')
+    }
+  ];
 
   map: Map | undefined;
   openIncidentes = new Set<Incidente>();
   selectedIncidente: Incidente | null = null;
   filteredIncidentes: Incidente[] = [];
   filterTipo: string = 'todos';
+  estados: HashResponse = {};
+  tipos:HashResponse = {};
 
   // Icon mapping
   private iconMap: { [key: string]: { icon: string, color: string } } = {
@@ -154,6 +157,8 @@ incidentes: Incidente[] = [
     config.apiKey = 'E2rqKhxKFWqMTrQt5uw2';
     this.filteredIncidentes = [...this.incidentes];
     this.getIncidentes();
+    this.getEstados();
+    this.getTipos();
   }
 
   ngAfterViewInit() {
@@ -196,12 +201,41 @@ incidentes: Incidente[] = [
     );
   }
 
+  getEstados() {
+    this.subscriptions.push(
+      this.incidenteService.getEstados().subscribe({
+        next: (v) => {
+          if (v.body) {
+            this.estados = v.body;
+          }
+        },
+        error: (e) => {
+          console.log(e);
+        }
+      })
+    );
+  }
+  getTipos() {
+    this.subscriptions.push(
+      this.incidenteService.getTipos().subscribe({
+        next: (v) => {
+          if (v.body) {
+            this.tipos = v.body;
+          }
+        },
+        error: (e) => {
+          console.log(e);
+        }
+      })
+    );
+  }
+
   private addMarkersToMap(): void {
     this.clearMarkers();
     
     this.filteredIncidentes.forEach(incidente => {
       if (this.map && incidente.latitud && incidente.longitud) {
-        const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['Bache'];
+        const iconInfo = this.iconMap[this.tipos[incidente.tipo]] || this.iconMap['Bache'];
         
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
@@ -215,11 +249,11 @@ incidentes: Incidente[] = [
         const popup = new Popup({ offset: 25 })
           .setHTML(`
             <div class="incidente-popup">
-              <h4>${incidente.tipo}</h4>
+              <h4>${this.tipos[incidente.tipo]}</h4>
               <p>${incidente.descripcion}</p>
               <div class="popup-footer">
-                <span class="estado-badge ${incidente.estado.toLowerCase().replace(' ', '-')}">
-                  ${incidente.estado}
+                <span class="estado-badge ${this.estados[incidente.estado].toLowerCase().replace(' ', '-')}">
+                  ${this.estados[incidente.estado]}
                 </span>
                 <span class="fecha">${incidente.fecha.toLocaleString()}</span>
               </div>
@@ -250,7 +284,7 @@ incidentes: Incidente[] = [
     this.clearMarkers();
     
     if (this.map && incidente.latitud && incidente.longitud) {
-      const iconInfo = this.iconMap[incidente.tipo] || this.iconMap['Bache'];
+      const iconInfo = this.iconMap[this.tipos[incidente.tipo]] || this.iconMap['Bache'];
       
       const markerElement = document.createElement('div');
       markerElement.className = 'custom-marker selected';
@@ -294,7 +328,7 @@ incidentes: Incidente[] = [
     if (type === 'todos') {
       this.filteredIncidentes = [...this.incidentes];
     } else {
-      this.filteredIncidentes = this.incidentes.filter(i => i.tipo === type);
+      this.filteredIncidentes = this.incidentes.filter(i => this.incidentes[i.tipo] === type);
     }
     this.addMarkersToMap();
   }

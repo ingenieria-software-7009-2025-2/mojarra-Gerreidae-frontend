@@ -21,21 +21,21 @@
            (click)="onIncidenteClick(incidente)">
         
         <div class="incidente-icon" 
-             [style.background-color]="getIncidenteColor(incidente.tipo)">
-          <i class="fas fa-{{ getIncidenteIcon(incidente.tipo) }}"></i>
+             [style.background-color]="getIncidenteColor(tipos[incidente.tipo])">
+          <i class="fas fa-{{ getIncidenteIcon(tipos[incidente.tipo]) }}"></i>
         </div>
 
         <div class="incidente-content">
           <div class="incidente-header">
-            <h4 class="incidente-tipo">{{ incidente.tipo }}</h4>
+            <h4 class="incidente-tipo">{{ tipos[incidente.tipo] }}</h4>
             <span class="incidente-time">{{ incidente.fecha | date:'shortTime' }}</span>
           </div>
 
           <p class="incidente-desc">{{ incidente.descripcion }}</p>
 
           <div class="incidente-footer">
-            <span class="status-badge {{ incidente.estado.toLowerCase().replace(' ', '-') }}">
-              {{ incidente.estado }}
+            <span class="status-badge {{ incidente.estado.toLowerCase().replace('_', '-') }}">
+              {{ estados[incidente.estado] }}
             </span>
           </div>
         </div>
