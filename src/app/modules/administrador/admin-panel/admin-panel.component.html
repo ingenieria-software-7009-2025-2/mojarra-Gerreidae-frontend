@@ -1,10 +1,6 @@
-
-<div class="login-container">
-  <h1 class="app-name">Administración</h1>
-=======
-<!-- app.component.html -->
 <div class="table-container">
-  <table class="table">
+  <h2>Usuarios</h2>
+  <table>
     <thead>
       <tr>
         <th>#</th>
@@ -23,36 +19,33 @@
         <td>{{ user.apellidoM }}</td>
         <td>{{ user.mail }}</td>
         <td>
-          <button class="botonAccion" (click)="selectUserToEdit(user)">Editar</button>
-          <button (click)="deleteUser(user)">Eliminar</button>
+          <button (click)="selectUserToEdit(user)">Editar</button>
+          <button class="botonEliminar" (click)="deleteUser(user)">Eliminar</button>
+
+          <ng-container *ngIf="!mostrarFormulario">
+            <form [formGroup]="formUserToEdit" (ngSubmit)="updateUser()">
+              <div class="form-columns">
+                <div class="form-col">
+                  <label>Nombre</label>
+                  <input type="text" formControlName="nombre" />
+                  <label>Apellido Paterno</label>
+                  <input type="text" formControlName="apellidoP" />
+                  <label>Apellido Materno</label>
+                  <input type="text" formControlName="apellidoM" />
+                </div>
+                <div class="form-col">
+                  <label>Correo Electrónico</label>
+                  <input type="email" formControlName="mail" />
+                </div>
+              </div>
+              <div class="btn-container">
+                <button type="submit" [disabled]="formUserToEdit.invalid">Guardar Cambios</button>
+              </div>
+            </form>
+          </ng-container>
         </tr>
     </tbody>
   </table>
 </div>
 
-<div class="form-div">
-  <form class="form" [formGroup]="formUserToEdit" (ngSubmit)="updateUser()">
-    <div class="form-group">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" formControlName="nombre" name="nombre" required>
-    </div>
-
-    <div class="form-group">
-      <label for="apellidoP">Apellido Paterno:</label>
-      <input type="text" id="apellidoP" formControlName="apellidoP" name="apellidoP" required>
-    </div>
-
-    <div class="form-group">
-      <label for="apellidoM">Apellido Materno:</label>
-      <input type="text" id="apellidoM" formControlName="apellidoM" name="apellidoM" required>
-    </div>
-
-    <div class="form-group">
-      <label for="mail">Correo:</label>
-      <input type="email" id="mail" formControlName="mail" name="mail" required>
-    </div>
-
-    <button>Actualizar</button>
-  </form>
-</div>
 
