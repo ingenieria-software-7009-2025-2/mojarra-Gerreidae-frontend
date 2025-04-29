@@ -18,7 +18,9 @@ import { HttpInterceptorFn } from '@angular/common/http';
  */
 export const authorizationInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('token');
-
+  if (req.url.startsWith('https://api.maptiler.com/geocoding')) {
+    return next(req);
+  }
   if (token) {
     req = req.clone({
       setHeaders: {

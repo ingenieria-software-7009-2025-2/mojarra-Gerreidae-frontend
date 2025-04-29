@@ -1,0 +1,147 @@
+/* Fondo y centrado */
+.perfil-wrapper {
+    padding: 10px 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+  }
+  
+  /* Contenedor principal con glassmorphism */
+  .perfil-container {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(15px);
+    padding: 80px;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 216, 255, 0.2), inset 0 0 20px rgba(255,255,255,0.1);
+    max-width: 900px;
+    width: 100%;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .perfil-container h2 {
+    text-align: center;
+    font-size: 2.3rem;
+    margin-bottom: 30px;
+    color: #00d8ff;
+    text-shadow: 0 0 10px rgba(0, 216, 255, 0.5);
+  }
+  
+  /* VISTA DE DATOS */
+  .datos-usuario p {
+    font-size: 1.1rem;
+    margin: 12px 0;
+    color: #cdefff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+  }
+  
+  /* COLUMNA DOBLE */
+  .form-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .form-col {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Inputs y etiquetas */
+  label {
+    margin: 12px 0 5px;
+    font-weight: 500;
+    color: #cdefff;
+  }
+  
+  input {
+    padding: 12px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: background 0.3s ease;
+  }
+  
+  input::placeholder {
+    color: #ccc;
+  }
+  
+  input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+  }
+  
+  /* Botones */
+  .btn-container {
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  button {
+    padding: 12px 30px;
+    background: #00d8ff;
+    color: #001f3f;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover:not(:disabled) {
+    background: #00aacc;
+    transform: scale(1.03);
+  }
+  
+  button:disabled {
+    background: #888;
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Errores */
+  .error {
+    font-size: 0.85rem;
+    color: #ff7b7b;
+    margin-top: 4px;
+  }
+  .btn-red {
+    padding: 12px 30px;
+    background: #ff9933;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-red:hover {
+    background: #ff8c1a;
+    transform: scale(1.05);
+  }
+  

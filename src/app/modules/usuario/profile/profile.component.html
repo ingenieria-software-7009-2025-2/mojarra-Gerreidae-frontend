@@ -1,0 +1,47 @@
+<div class="perfil-wrapper">
+    <div class="perfil-container">
+      <ng-container *ngIf="!mostrarFormulario; else editar">
+        <h2> Mi Perfil</h2>
+        <div class="datos-usuario">
+          <p><strong>Nombre: {{user.nombre}}</strong> </p>
+          <p><strong>Apellido Paterno: {{user.apellidoP}}</strong> </p>
+          <p><strong>Apellido Materno: {{user.apellidoM}}</strong> </p>
+          <p><strong>Correo: {{user.mail}}</strong> </p>
+        </div>
+        <div class="btn-container">
+            <button (click)="editarPerfil()">Editar Perfil</button>
+            <button class="btn-red">Ver Incidentes</button>
+          </div>
+          
+      </ng-container>
+  
+      <ng-template #editar>
+        <h2>Editar Perfil</h2>
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+          <div class="form-columns">
+            <div class="form-col">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre" />
+              <label>Apellido Paterno</label>
+              <input type="text" formControlName="apellidoP" />
+              <label>Apellido Materno</label>
+              <input type="text" formControlName="apellidoM" />
+            </div>
+            <div class="form-col">
+              <label>Correo Electrónico</label>
+              <input type="email" formControlName="mail" />
+              <label>Contraseña</label>
+              <input type="password" formControlName="password" />
+              <label>Confirmar Contraseña</label>
+              <input type="password" formControlName="confirmPassword" />
+            </div>
+          </div>
+          <div class="btn-container">
+            <button type="submit" [disabled]="updateForm.invalid">Guardar Cambios</button>
+            <button type="button" (click)="cancelarEdicion()"> Cancelar</button>
+          </div>
+        </form>
+      </ng-template>
+    </div>
+  </div>
+  

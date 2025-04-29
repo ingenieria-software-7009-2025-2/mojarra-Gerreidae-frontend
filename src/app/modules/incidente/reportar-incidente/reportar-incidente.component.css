@@ -1,0 +1,137 @@
+/* reportar-incidente.component.css */
+
+/* ——————————————————————————————————
+   Contenedor principal
+—————————————————————————————————— */
+.report-container {
+  display: flex;
+  height: 100vh;
+  padding: 10px;
+  gap: 10px;
+  background-color: #f5f7fa; /* light background */
+  box-sizing: border-box;
+}
+
+/* ——————————————————————————————————
+   Mapa
+—————————————————————————————————— */
+.report-map {
+  flex: 3;
+  position: relative;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.report-map::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 30%;
+  background: linear-gradient(0deg, rgba(100,181,246,0.4) 0%, transparent 100%);
+  animation: waterShine 8s infinite ease-in-out;
+}
+
+@keyframes waterShine {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 0.9; }
+}
+
+/* ——————————————————————————————————
+   Formulario de reporte
+—————————————————————————————————— */
+.report-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+/* Título */
+.report-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #095f70; /* darker accent */
+  text-align: center;
+}
+
+/* Etiquetas */
+.report-form label {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Campos de texto, select y textarea */
+.report-form input[type="text"],
+.report-form input[type="file"],
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-top: 0.25rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.report-form input:focus,
+.report-form select:focus,
+.report-form textarea:focus {
+  outline: none;
+  border-color: #0c7b93; /* primary accent */
+  box-shadow: 0 0 0 2px rgba(12,123,147,0.2);
+}
+
+/* Previsualización de imágenes */
+.preview-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.preview-images .thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.preview-images .thumb:hover {
+  transform: scale(1.05);
+}
+
+/* Botón de enviar */
+.btn-submit {
+  margin-top: 2rem;
+  padding: 0.75rem;
+  background-color: #0c7b93; /* primary */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #095f70; /* darker on hover */
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  background-color: #bbbbbb;
+  cursor: not-allowed;
+  transform: none;
+}

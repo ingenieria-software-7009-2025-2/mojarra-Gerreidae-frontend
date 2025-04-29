@@ -1,0 +1,51 @@
+<div class="table-container">
+  <h2>Usuarios</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>ApellidoP</th>
+        <th>ApellidoM</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.apellidoP }}</td>
+        <td>{{ user.apellidoM }}</td>
+        <td>{{ user.mail }}</td>
+        <td>
+          <button (click)="selectUserToEdit(user)">Editar</button>
+          <button class="botonEliminar" (click)="deleteUser(user)">Eliminar</button>
+
+          <ng-container *ngIf="!mostrarFormulario">
+            <form [formGroup]="formUserToEdit" (ngSubmit)="updateUser()">
+              <div class="form-columns">
+                <div class="form-col">
+                  <label>Nombre</label>
+                  <input type="text" formControlName="nombre" />
+                  <label>Apellido Paterno</label>
+                  <input type="text" formControlName="apellidoP" />
+                  <label>Apellido Materno</label>
+                  <input type="text" formControlName="apellidoM" />
+                </div>
+                <div class="form-col">
+                  <label>Correo Electrónico</label>
+                  <input type="email" formControlName="mail" />
+                </div>
+              </div>
+              <div class="btn-container">
+                <button type="submit" [disabled]="formUserToEdit.invalid">Guardar Cambios</button>
+              </div>
+            </form>
+          </ng-container>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+
