@@ -1,11 +1,13 @@
-// reportar-incidente.component.ts
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Map, MapStyle, Marker, config } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
+
+import { mjs_api_uri } from '../../../shared/mjs-api-uri';
+import { SwalMessages } from '../../../shared/swal-messages';
 
 @Component({
   selector: 'app-reportar-incidente',
@@ -20,21 +22,25 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   reportForm!: FormGroup;
   map!: Map;
   marker!: Marker;
-  selectedImages: string[] = []; // Para almacenar las imágenes en Base64
-  maxImages = 3; // Límite de imágenes
+  private subs: Subscription | null = null;
+
+  selectedImages: string[] = [];
+  maxImages = 3;
 
   private apiKey = 'E2rqKhxKFWqMTrQt5uw2';
   private geocodeUrl = 'https://api.maptiler.com/geocoding/';
-  private subs: Subscription | null = null;
 
   incidentOptions = [
     'Accidente', 'Retraso', 'Obras', 'Policía',
     'Emergencia', 'Tráfico', 'Cierre', 'Otro'
   ];
 
+  swal = new SwalMessages();
+
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +59,12 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
 
   private initForm(): void {
     this.reportForm = this.fb.group({
-      address: ['', Validators.required],
-      type: ['', Validators.required],
-      comment: [''],
-      images: [[]] // Para almacenar las imágenes en el formulario
+      address:  ['', Validators.required],
+      latitud:  [null, Validators.required],
+      longitud: [null, Validators.required],
+      type:     ['', Validators.required],
+      comment:  [''],
+      images:   [[]]
     });
   }
 
@@ -64,24 +72,31 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
     const center: [number, number] = [-99.184903, 19.321251];
     this.map = new Map({
       container: this.mapContainer.nativeElement,
-      style: MapStyle.STREETS,
+      style:     MapStyle.STREETS,
       center,
-      zoom: 14
+      zoom:      14
     });
 
     this.marker = new Marker({ draggable: true })
       .setLngLat(center)
       .addTo(this.map);
 
-    this.map.on('click', e => this.onMapClick(e.lngLat.lng, e.lngLat.lat));
+    this.map.on('click', (e: any) => {
+      const { lng, lat } = e.lngLat;
+      this.onMapClick(lng, lat);
+    });
+
     this.marker.on('dragend', () => {
       const { lng, lat } = this.marker.getLngLat();
-      this.reverseGeocode(lng, lat);
+      this.onMapClick(lng, lat);
     });
   }
 
   private onMapClick(lng: number, lat: number): void {
     this.marker.setLngLat([lng, lat]);
+    this.zone.run(() => {
+      this.reportForm.patchValue({ longitud: lng, latitud: lat });
+    });
     this.reverseGeocode(lng, lat);
   }
 
@@ -93,82 +108,97 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
     this.subs = this.http.get<any>(url).subscribe(res => {
       if (res.features?.length) {
         const [lng, lat] = res.features[0].geometry.coordinates;
-        this.map.setCenter([lng, lat]);
-        this.marker.setLngLat([lng, lat]);
+        this.zone.run(() => {
+          this.map.setCenter([lng, lat]);
+          this.marker.setLngLat([lng, lat]);
+          this.reportForm.patchValue({ longitud: lng, latitud: lat });
+        });
       }
     });
   }
+
   private reverseGeocode(lng: number, lat: number): void {
     const url = `${this.geocodeUrl}${lng},${lat}.json?limit=1&key=${this.apiKey}`;
-    
-    // Cancelamos la suscripción anterior si existe
-    if (this.subs) {
-      this.subs.unsubscribe();
-    }
-  
-    this.subs = this.http.get<any>(url).subscribe({
-      next: (res) => {
-        if (res.features?.length) {
-          this.reportForm.patchValue({
-            address: res.features[0].place_name || res.features[0].properties.label
-          });
-        }
-      },
-      error: (err) => {
-        console.error('Error en geocodificación inversa:', err);
+    this.subs = this.http.get<any>(url).subscribe(res => {
+      if (res.features?.length) {
+        const props = res.features[0].properties;
+        const label = props.label ?? props.name ?? '';
+        this.zone.run(() => this.reportForm.patchValue({ address: label }));
       }
     });
   }
+
   onImageSelected(event: any): void {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      // Verificar que no excedamos el límite
-      const remainingSlots = this.maxImages - this.selectedImages.length;
-      if (remainingSlots <= 0) {
-        alert(`Solo puedes subir un máximo de ${this.maxImages} imágenes`);
-        return;
-      }
-
-      const filesToProcess = Math.min(remainingSlots, files.length);
-      
-      for (let i = 0; i < filesToProcess; i++) {
-        const file = files[i];
-        if (!file.type.match('image.*')) {
-          continue; // Solo procesar imágenes
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.selectedImages.push(e.target.result);
-          this.reportForm.patchValue({
-            images: [...this.selectedImages]
-          });
-        };
-        reader.readAsDataURL(file);
-      }
+    const files: FileList = event.target.files;
+    const remaining = this.maxImages - (this.reportForm.value.images?.length || 0);
+    const toProcess = Math.min(remaining, files.length);
+    for (let i = 0; i < toProcess; i++) {
+      const file = files[i];
+      if (!file.type.startsWith('image/')) continue;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imgs = [...(this.reportForm.value.images || []), e.target.result];
+        this.zone.run(() => this.reportForm.patchValue({ images: imgs }));
+      };
+      reader.readAsDataURL(file);
     }
   }
-  removeImage(index: number): void {
-    this.selectedImages.splice(index, 1);
-    this.reportForm.patchValue({
-      images: [...this.selectedImages]
-    });
-  }
-  onSubmit(): void {
-    if (this.reportForm.invalid) return;
 
-    const { address, type, comment, images } = this.reportForm.value;
-    const { lng, lat } = this.marker.getLngLat();
-    const payload = { 
-      address, 
-      type, 
-      comment, 
-      latitude: lat, 
-      longitude: lng,
-      images: images || []
+  removeImage(idx: number): void {
+    const imgs = [...(this.reportForm.value.images || [])];
+    imgs.splice(idx, 1);
+    this.reportForm.patchValue({ images: imgs });
+  }
+
+  /**
+   * Envía el formulario al endpoint POST /v1/incident
+   */
+  onSubmit(): void {
+    if (this.reportForm.invalid) {
+      this.swal.errorMessage('Revisa que todos los campos obligatorios estén completos.');
+      return;
+    }
+
+    // Extrae el objeto usuario completo guardado en login
+    const usuarioStr = localStorage.getItem('usuario');
+    if (!usuarioStr) {
+      this.swal.errorMessage('Debes iniciar sesión primero.');
+      return;
+    }
+    const usuario = JSON.parse(usuarioStr);
+    // token y UserID ya no se mandan en el body, el token va en header
+    const token = usuario.token;
+
+    // Construye el payload EXACTO que tu controlador espera
+    const { type, comment, latitud, longitud, images } = this.reportForm.value;
+    const payload = {
+      descripcion: comment,
+      tipo:        type,
+      estado:      'Pendiente',
+      latitud,
+      longitud,
+      imagenes:    images || []
     };
 
-    console.log('Reporte enviado:', payload);
-    // TODO: enviar payload al backend
+    // Prepara headers con el token
+    const headers = new HttpHeaders().set('Authorization', token);
+
+    this.http
+      .post<string>(
+        `${mjs_api_uri}/v1/incident`,
+        payload,
+        { headers, responseType: 'text' as 'json' }
+      )
+      .subscribe({
+        next: () => {
+          this.swal.successMessage('Incidente creado correctamente.');
+          this.reportForm.reset();
+          this.selectedImages = [];
+        },
+        error: (err) => {
+          console.error('Error creando incidente', err);
+          this.swal.errorMessage('No se pudo crear el incidente. Intenta de nuevo.');
+        }
+      });
   }
 }
