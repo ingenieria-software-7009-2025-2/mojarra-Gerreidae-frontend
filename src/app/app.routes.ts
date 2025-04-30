@@ -9,6 +9,7 @@ import { AdminPanelComponent } from './modules/administrador/admin-panel/admin-p
 import { AdminIncidenteComponent } from './modules/administrador/admin-incidentes/admin-incidente.component';
 import { ReportarIncidenteComponent } from './modules/incidente/reportar-incidente/reportar-incidente.component';
 import { HomeComponent } from './modules/home/home/home.component';
+import { authorizationGuard } from './core/auth/authorization.guard';
 
 
 export const routes: Routes = [
@@ -35,14 +36,16 @@ export const routes: Routes = [
       {
         path: 'adminuser',
         component: AdminPanelComponent,
-        canActivate: [authenticationGuard]
+        canActivate: [authenticationGuard, authorizationGuard]
       },
       {
         path: 'adminincidente',
-        component: AdminIncidenteComponent
+        component: AdminIncidenteComponent,
+        canActivate: [authenticationGuard, authorizationGuard]
       },
       { path: 'report', 
-        component: ReportarIncidenteComponent 
+        component: ReportarIncidenteComponent, 
+        canActivate: [authenticationGuard]
       },
       { path: 'profile',
         component: ProfileComponent,

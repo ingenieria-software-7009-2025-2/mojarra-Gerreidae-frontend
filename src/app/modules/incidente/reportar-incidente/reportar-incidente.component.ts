@@ -1,22 +1,22 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Map, MapStyle, Marker, config } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
-import { HttpClientJsonpModule } from '@angular/common/http';
 import { mjs_api_uri } from '../../../shared/mjs-api-uri';
 import { SwalMessages } from '../../../shared/swal-messages';
 import { AuthService } from '../../usuario/login/_service/auth.service';
+import { HashResponse } from '../mapa-incidentes/_model/HashResponse';
+import { IncidentesService } from '../mapa-incidentes/_service/incidentes.service';
 
 @Component({
   selector: 'app-reportar-incidente',
   standalone: true,
   imports: [
     CommonModule, 
-    ReactiveFormsModule,
-    HttpClientJsonpModule 
+    ReactiveFormsModule
   ],
   templateUrl: './reportar-incidente.component.html',
   styleUrls: ['./reportar-incidente.component.css']
@@ -24,6 +24,7 @@ import { AuthService } from '../../usuario/login/_service/auth.service';
 export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
 
+  private subscriptions: Subscription[] = [];
   reportForm!: FormGroup;
   map!: Map;
   marker!: Marker;
@@ -35,30 +36,24 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
   private apiKey = 'E2rqKhxKFWqMTrQt5uw2';
   private geocodeUrl = 'https://api.maptiler.com/geocoding';
 
-  incidentOptions = [
-    'Accidente vial',
-    'Incendio',
-    'Manifestación',
-    'Servicios públicos',
-    'Bache',
-    'Luminaria Descompuesta',
-    'Obstáculo en vía pública'
-  ];
+  tipos:HashResponse = {};
+  incidentOptions: string[]  = [];
 
   swal = new SwalMessages();
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private jsonp: JsonpClientBackend,  
     private zone: NgZone,
-    private authService: AuthService
+    private authService: AuthService,
+    private incidenteService: IncidentesService
   ) {}
   
 
   ngOnInit(): void {
     config.apiKey = this.apiKey;
     this.initForm();
+    this.getTipos();
   }
 
   ngAfterViewInit(): void {
@@ -156,8 +151,23 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       }
     });
   }
-  
-  
+
+  getTipos() {
+    this.subscriptions.push(
+      this.incidenteService.getTipos().subscribe({
+        next: (v) => {
+          if (v.body) {
+            this.tipos = v.body;
+            this.incidentOptions = Object.values(this.tipos);
+          }
+        },
+        error: (e) => {
+          console.log(e);
+        }
+      })
+    );
+  }
+
   onImageSelected(event: any): void {
     const files: FileList = event.target.files;
     const remaining = this.maxImages - (this.reportForm.value.images?.length || 0);
@@ -201,8 +211,6 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       return;
     }
 
-    // Extrae el objeto usuario completo guardado en login
-    const usuarioStr = localStorage.getItem('usuario');
     if (!this.authService.isUserLoggedIn()) {
       this.swal.errorMessage('Debes iniciar sesión primero.');
       return;
@@ -219,13 +227,7 @@ export class ReportarIncidenteComponent implements OnInit, AfterViewInit, OnDest
       imagenes:    (images || []).map((img: any) => img.data) // Solo base64
     };
 
-    this.http
-      .post<string>(
-        `${mjs_api_uri}/v1/incident`,
-        payload,
-        { responseType: 'text' as 'json' }
-      )
-      .subscribe({
+    this.incidenteService.postIncidente(payload).subscribe({
         next: () => {
           this.swal.successMessage('Incidente creado correctamente.');
           this.reportForm.reset();
